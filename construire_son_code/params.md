@@ -191,7 +191,7 @@ VERBOSE: Process SERVER03
 
 Les deux doivent avoir le même type. Ici dans l'exemple, la propriété `Name` d'un objet `service` est un `[string]` et peut donc être récupérer par le paramètre `$Name` de notre commande.
 
-On peut utiliser les alias de paramètres pour faire conrespondre notre paramètre à plusieurs nom de propriétés possible.
+On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs nom de propriétés possible.
 
 +++ :icon-code: Code
 
