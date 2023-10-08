@@ -1,0 +1,14 @@
+# Construire son code
+
+## Tout commence par une commande
+
+## Input: Paramètres
+
+## Output: Objets
+
+## Verbose, Warning, Informational Output
+
+## Aide
+
+## Gestion des erreurs
+

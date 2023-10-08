@@ -1,0 +1,17 @@
+input: .
+output: .retype
+url: https://synapsysit.github.io/Powershell-Niv.2/
+branding:
+  title: Formation Powershell
+  label: Niv.2
+  logo: assets/logo_rhino_red.png          # Path to a logo file.
+  logoDark: assets/logo_rhino.png # Path to a logo file to use in dark mode.
+  colors:
+    label:                  # Label colors
+      text: "#ffffff"       # Custom color for the label text.
+      background: "#be1212" # Custom color for the label background.
+
+favicon: assets/logo_rhino_red.png
+
+editor:
+  enabled: false
