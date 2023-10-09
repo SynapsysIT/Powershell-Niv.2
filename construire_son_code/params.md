@@ -1,32 +1,34 @@
 ---
-icon: arrow-right
-order: 3
+icon: sign-in
+order: 10
 title: Paramètres
 ---
 
 # Les paramètres
 
 ```powershell Ensemble des options et des attributs de paramètres possibles:
-[Parameter(Mandatory = $Boolean,
-    Position = Int,
-    ParameterSetName = "String",
-    ValueFromPipeline = $Boolean,
-    ValueFromPipelineByPropertyName = $Boolean,
-    ValueFromRemainingArguments = Boolean)]
-[Alias('String')]
-[ValidateNotNull()]
-[ValidateNotNullOrEmpty()]
-[ValidateSet('String1', 'String2')]
-[ValidateCount(Int_min, Int_max)]
-[ValidateLength(Int_min, Int_max)]
-[ValidateRange(Int_min, Int_max)]
-[ValidatePattern('RegexPattern')]
-[ValidateScript({ Expression })]
-[AllowNull()]
-[AllowEmptyString()]
-[AllowEmptyCollection()]
-[Type[]]
-$Name
+param (
+    [Parameter(Mandatory = $Boolean,
+        Position = Int,
+        ParameterSetName = "String",
+        ValueFromPipeline = $Boolean,
+        ValueFromPipelineByPropertyName = $Boolean,
+        ValueFromRemainingArguments = Boolean)]
+    [Alias('String')]
+    [ValidateNotNull()]
+    [ValidateNotNullOrEmpty()]
+    [ValidateSet('String1', 'String2')]
+    [ValidateCount(Int_min, Int_max)]
+    [ValidateLength(Int_min, Int_max)]
+    [ValidateRange(Int_min, Int_max)]
+    [ValidatePattern('RegexPattern')]
+    [ValidateScript({ Expression })]
+    [AllowNull()]
+    [AllowEmptyString()]
+    [AllowEmptyCollection()]
+    [Type[]]
+    $Name
+)
 ```
 
 ## Options de paramètres
@@ -144,9 +146,11 @@ function Convert-IPMask
 > "255.255.255.0" | Convert-IPMask
 34
 ```
+
 +++
 
 +++ :icon-code: Code
+
 ```powershell #5
 function Set-Machine
 {
@@ -184,10 +188,9 @@ VERBOSE: Process SERVER03
 
 +++
 
-
 ### ValueFromPipelineByPropertyName
 
-`ValueFromPipelineByPropertyName` permet de lié un paramètre à un une propriété de l'objet recu dans le pipeline **par leur nom**.
+`ValueFromPipelineByPropertyName` permet de lier un paramètre à un une propriété de l'objet recu dans le pipeline **par leur nom**.
 
 Les deux doivent avoir le même type. Ici dans l'exemple, la propriété `Name` d'un objet `service` est un `[string]` et peut donc être récupérer par le paramètre `$Name` de notre commande.
 
@@ -246,4 +249,180 @@ Services Status
 
 +++
 
-<https://learn.microsoft.com/fr-fr/powershell/scripting/developer/cmdlet/validatepattern-attribute-declaration?view=powershell-7.3>
+### ValueFromRemainingArguments
+
+`ValueFromRemainingArguments` permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande de la ligne de commande.
+
++++ :icon-code: Code
+
+```powershell
+function Test-Function {
+    [CmdletBinding()]
+    param (
+
+        [Parameter()]
+        [string]$MainParameter,
+
+        [Parameter(ValueFromRemainingArguments)]
+        [array]$Arguments
+    )
+    
+    for ($i = 0; $i -lt $Arguments.Count; $i++) {
+        
+        Write-Verbose "Remaining Arguments $i : $($Arguments[$i])"
+    }
+
+}
+```
+
++++ :icon-play: Exemple
+
+```powershell
+> Test-Function -MainParameter "test" toto tata titi -Verbose
+
+VERBOSE: Remaining Arguments 0 : toto
+VERBOSE: Remaining Arguments 1 : tata
+VERBOSE: Remaining Arguments 2 : titi
+```
+
++++
+
+
+## Attributs de paramètres
+
+### Alias
+
+L'attribut `alias` permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour faire le faire correspondre à plusieurs nom de propriétés possibles lorsqu'il est utilisé avec `ValueFromPipelineByPropertyName`.
+
+```powershell #2
+    param (
+        [Alias("Hostname","Name")]
+        [string]$ComputerName
+    )
+```
+
+### ValidateNotNull
+
+L'attribut `ValidateNotNull` spécifie que la valeur du paramètre ne peut pas être `$null`
+
+### ValidateNotNullOrEmpty
+
+L’attribut `ValidateNotNullOrEmpty` spécifie que la valeur affectée ne peut pas être l’une des valeurs suivantes :
+
+- `$null`
+- une chaine vide `""`
+- un tableau ou une liste vide `@()`
+
+### ValidateSet
+
+L'attribut ValidateSet spécifie un ensemble de valeurs valide pour ce paramètre et permet l'auto-complétion lors de la saisie de la valeur.
+
+```powershell #3
+    param (
+        [Parameter()]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [string]$OperatingSystem
+    )
+```
+
+!!!warning
+Cette validation se fera à chaque assignation de cette variable :
+
+```powershell
+function Test-Function {
+    param (
+        [Parameter()]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [string]$OperatingSystem
+    )
+
+    $OperatingSystem = "Linux"
+}
+```
+
+Cette exemple renverra l'erreur suivante:
+
+```txt
+The variable cannot be validated because the value Linux is not a valid value for the OperatingSystem variable.
+```
+
+!!!
+
+### ValidateCount
+
+L'attribut `ValidateCount` spécifie le nombre de valeur minimal et maximal autorisé pour un paramètre
+
+```powershell
+[ValidateCount(Int_min, Int_max)]
+```
+
+### ValidateLength
+
+Dans le cas d'un paramètre de type `[string]`. L'attribut `ValidateLength` spécifie le nombre de caractère minimal et maximal pour la valeur du paramètre.
+
+```powershell
+[ValidateLength(Int_min, Int_max)]
+```
+
+
+### ValidateRange
+
+Dans le cas d'un paramètre de type `[int]` ou `[double]`. L'attribut `ValidateRange` spécifie la valeur minimale et maximal que ce paramètre peut recevoir comme valeur.
+
+```powershell
+[ValidateRange(Int_min, Int_max)]
+```
+
+### ValidatePattern
+
+L'attribut `ValidatePattern` permet d'utiliser une expression régulière (RegEx) pour valider la valeur d'un paramètre.
+
+Dans cet exemple, on validera que la valeur du paramètre `-Telephone` soit un numéro de téléphone français valide :
+
+```powershell #4
+function Test-Function {
+    param (
+        [Parameter()]
+        [ValidatePattern("^(0033|0|\+33)[1-9]([-. ]?[0-9]{2}){4}$")]
+        [string]$Telephone
+    )
+}
+```
+
+
+### ValidateScript
+
+L'attribut `ValidatePattern`  permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyé une variable de type `[bool]` (`$true` | `$false` ).
+
+Dans ce bloc de script, [!badge variant="danger" text="$_"] fera référence à la valeur du paramètre spécifié.
+
+Dans cet exemple, on validera que le chemin renseigné en valeur du paramètre `-Path` existe :
+
+```powershell #4
+function Test-Function {
+    param (
+        [Parameter()]
+        [ValidateScript({ Test-Path $_ })]
+        [string]$Path
+    )
+}
+```
+
+### AllowNull
+
+L'attribut `AllowNull` permet à la valeur d'un paramètre **obligatoire** d'être `$null`
+
+### AllowEmptyString
+
+L'attribut `AllowEmptyString` permet à la valeur d'un paramètre **obligatoire** de type `[string]` d'être vide `""`
+
+### AllowEmptyCollection
+
+L'attribut `AllowEmptyCollection` permet à la valeur d'un paramètre **obligatoire** d'être une collection vide `@()`
+
+
+___
+#### Voir plus sur learn.microsoft.com
+
+[!badge target="blank" text="Attributs des applets de commandes"](https://learn.microsoft.com/fr-fr/powershell/scripting/developer/cmdlet/cmdlet-attributes?view=powershell-7.3) - 
+[!badge target="blank" text="about_Functions_Argument_Completion"](https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_functions_argument_completion?view=powershell-7.3) - [!badge target="blank" text="about_Functions_Advanced_Parameters"](https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters?view=powershell-7.3)

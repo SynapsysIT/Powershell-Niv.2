@@ -18,10 +18,11 @@ La construction de notre code consistera ensuite à entourer  ces commandes de v
 
 
 ## Définir un squelette
+{.list-icon}
 
-- [x] **Les Inputs** - A l'aide des paramètres, on valide, on nomme et on contrôle les entrées 
-- [x] **Les Outputs** - On définit et on structure les données qui devront être renvoyés par notre code
-- [x] **Les contrôles** - On traite les erreurs possible, et on rends notre code assez verbeux pour faciliter son debug.
+- :icon-check-circle: **Les Inputs** - A l'aide des paramètres, on valide, on nomme et on contrôle les entrées 
+- :icon-check-circle: **Les Outputs** - On définit et on structure les données qui devront être renvoyés par notre code
+- :icon-check-circle: **Les contrôles** - On traite les erreurs possible, et on rends notre code assez verbeux pour faciliter son debug.
 
 
 #### Si on code une fonction

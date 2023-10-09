@@ -9,8 +9,10 @@ order: 1000
 
 Le but de cette formation de perfectionnement en Powershell est de donner les clés et les techniques pour passer d'un code "vite-fait" à un code:
 
-- [x] **Fiable**
+{.list-icon}
 
-- [x] **Robuste**
+- :icon-check-circle: **Fiable**
 
-- [x] **Maintenable**
+- :icon-check-circle: **Robuste**
+
+- :icon-check-circle: **Maintenable**
