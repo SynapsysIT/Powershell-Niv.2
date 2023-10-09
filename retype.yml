@@ -13,5 +13,14 @@ branding:
 
 favicon: assets/logo_rhino_red.png
 
+links:
+  - text: Formation Niv. 1
+    link: https://synapsysit.github.io/Powershell-Niv.1/
+    icon: note
+    target: blank
+
+edit:
+  repo: "https://github.com/SynapsysIT/Powershell-Niv.2"
+
 editor:
   enabled: false
