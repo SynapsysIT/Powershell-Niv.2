@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/Powershell-Niv.2">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.750096739631">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.750194630145">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../assets/logo_rhino_red.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.5.0.750096739631" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.750194630145" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.750096739631" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.750194630145" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.750096739631" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.750096739631" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.750194630145" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.750194630145" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -164,26 +164,28 @@
 </doc-anchor-target>
 <div class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">Ensemble des options et des attributs de paramètres possibles:</div>
-<pre class="language-powershell"><code v-pre class="language-powershell">[Parameter(Mandatory = $Boolean,
-    Position = Int,
-    ParameterSetName = &quot;String&quot;,
-    ValueFromPipeline = $Boolean,
-    ValueFromPipelineByPropertyName = $Boolean,
-    ValueFromRemainingArguments = Boolean)]
-[Alias('String')]
-[ValidateNotNull()]
-[ValidateNotNullOrEmpty()]
-[ValidateSet('String1', 'String2')]
-[ValidateCount(Int_min, Int_max)]
-[ValidateLength(Int_min, Int_max)]
-[ValidateRange(Int_min, Int_max)]
-[ValidatePattern('RegexPattern')]
-[ValidateScript({ Expression })]
-[AllowNull()]
-[AllowEmptyString()]
-[AllowEmptyCollection()]
-[Type[]]
-$Name</code></pre>
+<pre class="language-powershell"><code v-pre class="language-powershell">param (
+    [Parameter(Mandatory = $Boolean,
+        Position = Int,
+        ParameterSetName = &quot;String&quot;,
+        ValueFromPipeline = $Boolean,
+        ValueFromPipelineByPropertyName = $Boolean,
+        ValueFromRemainingArguments = Boolean)]
+    [Alias('String')]
+    [ValidateNotNull()]
+    [ValidateNotNullOrEmpty()]
+    [ValidateSet('String1', 'String2')]
+    [ValidateCount(Int_min, Int_max)]
+    [ValidateLength(Int_min, Int_max)]
+    [ValidateRange(Int_min, Int_max)]
+    [ValidatePattern('RegexPattern')]
+    [ValidateScript({ Expression })]
+    [AllowNull()]
+    [AllowEmptyString()]
+    [AllowEmptyCollection()]
+    [Type[]]
+    $Name
+)</code></pre>
 </doc-codeblock></div>
 <doc-anchor-target id="options-de-paramètres">
     <h2>
@@ -362,7 +364,7 @@ VERBOSE: Process SERVER03</code></pre>
         <span>ValueFromPipelineByPropertyName</span>
     </h3>
 </doc-anchor-target>
-<p><code v-pre>ValueFromPipelineByPropertyName</code> permet de lié un paramètre à un une propriété de l&#x27;objet recu dans le pipeline <strong>par leur nom</strong>.</p>
+<p><code v-pre>ValueFromPipelineByPropertyName</code> permet de lier un paramètre à un une propriété de l&#x27;objet recu dans le pipeline <strong>par leur nom</strong>.</p>
 <p>Les deux doivent avoir le même type. Ici dans l&#x27;exemple, la propriété <code v-pre>Name</code> d&#x27;un objet <code v-pre>service</code> est un <code v-pre>[string]</code> et peut donc être récupérer par le paramètre <code v-pre>$Name</code> de notre commande.</p>
 <p>On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs nom de propriétés possible.</p>
 <doc-tabs>
@@ -418,7 +420,233 @@ Services Status
 </doc-codeblock></div>
 </doc-tab>
 </doc-tabs>
-<p><a href="https://learn.microsoft.com/fr-fr/powershell/scripting/developer/cmdlet/validatepattern-attribute-declaration?view=powershell-7.3">https://learn.microsoft.com/fr-fr/powershell/scripting/developer/cmdlet/validatepattern-attribute-declaration?view=powershell-7.3</a></p>
+<doc-anchor-target id="valuefromremainingarguments">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#valuefromremainingarguments">#</doc-anchor-trigger>
+        <span>ValueFromRemainingArguments</span>
+    </h3>
+</doc-anchor-target>
+<p><code v-pre>ValueFromRemainingArguments</code> permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande de la ligne de commande.</p>
+<doc-tabs>
+<doc-tab v-cloak id="code">
+<template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M15.22 4.97a.75.75 0 0 1 1.06 0l6.5 6.5a.75.75 0 0 1 0 1.06l-6.5 6.5a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L21.19 12l-5.97-5.97a.75.75 0 0 1 0-1.06Zm-6.44 0a.75.75 0 0 1 0 1.06L2.81 12l5.97 5.97a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-6.5-6.5a.75.75 0 0 1 0-1.06l6.5-6.5a.75.75 0 0 1 1.06 0Z"/></g></g></svg> Code</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">function Test-Function {
+    [CmdletBinding()]
+    param (
+
+        [Parameter()]
+        [string]$MainParameter,
+
+        [Parameter(ValueFromRemainingArguments)]
+        [array]$Arguments
+    )
+    
+    for ($i = 0; $i -lt $Arguments.Count; $i++) {
+        
+        Write-Verbose &quot;Remaining Arguments $i : $($Arguments[$i])&quot;
+    }
+
+}</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+<doc-tab v-cloak id="exemple">
+<template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M9.5 15.584V8.416a.5.5 0 0 1 .77-.42l5.576 3.583a.5.5 0 0 1 0 .842l-5.576 3.584a.5.5 0 0 1-.77-.42Z"/><path d="M1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Zm11-9.5A9.5 9.5 0 0 0 2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5Z"/></g></g></svg> Exemple</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">&gt; Test-Function -MainParameter &quot;test&quot; toto tata titi -Verbose
+
+VERBOSE: Remaining Arguments 0 : toto
+VERBOSE: Remaining Arguments 1 : tata
+VERBOSE: Remaining Arguments 2 : titi</code></pre>
+</doc-codeblock></div>
+</doc-tab>
+</doc-tabs>
+<doc-anchor-target id="attributs-de-paramètres">
+    <h2>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#attributs-de-paramètres">#</doc-anchor-trigger>
+        <span>Attributs de paramètres</span>
+    </h2>
+</doc-anchor-target>
+<doc-anchor-target id="alias">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#alias">#</doc-anchor-trigger>
+        <span>Alias</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>alias</code> permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour faire le faire correspondre à plusieurs nom de propriétés possibles lorsqu&#x27;il est utilisé avec <code v-pre>ValueFromPipelineByPropertyName</code>.</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-powershell" data-line="2"><code v-pre class="language-powershell">    param (
+        [Alias(&quot;Hostname&quot;,&quot;Name&quot;)]
+        [string]$ComputerName
+    )</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validatenotnull">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatenotnull">#</doc-anchor-trigger>
+        <span>ValidateNotNull</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>ValidateNotNull</code> spécifie que la valeur du paramètre ne peut pas être <code v-pre>$null</code></p>
+<doc-anchor-target id="validatenotnullorempty">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatenotnullorempty">#</doc-anchor-trigger>
+        <span>ValidateNotNullOrEmpty</span>
+    </h3>
+</doc-anchor-target>
+<p>L’attribut <code v-pre>ValidateNotNullOrEmpty</code> spécifie que la valeur affectée ne peut pas être l’une des valeurs suivantes :</p>
+<ul>
+<li><code v-pre>$null</code></li>
+<li>une chaine vide <code v-pre>&quot;&quot;</code></li>
+<li>un tableau ou une liste vide <code v-pre>@()</code></li>
+</ul>
+<doc-anchor-target id="validateset">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validateset">#</doc-anchor-trigger>
+        <span>ValidateSet</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut ValidateSet spécifie un ensemble de valeurs valide pour ce paramètre et permet l&#x27;auto-complétion lors de la saisie de la valeur.</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-powershell" data-line="3"><code v-pre class="language-powershell">    param (
+        [Parameter()]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [string]$OperatingSystem
+    )</code></pre>
+</doc-codeblock></div>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1 rounded-tl rounded-bl bg-yellow-500"></div>
+    <div class="flex w-full py-4 border border-l-0 border-gray-300 rounded-tr rounded-br doc-alert bg-white dark:bg-dark-700 dark:border-dark-700" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mb-px text-yellow-500" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M22.48 15.59L14.01 1.45A2.968 2.968 0 0012.16.09c-.78-.19-1.58-.07-2.27.35-.41.25-.76.6-1.01 1.01v.01L.4 15.6c-.83 1.43-.33 3.27 1.1 4.1.45.26.95.4 1.48.4h16.95c.8-.01 1.55-.33 2.11-.9.56-.57.87-1.33.86-2.13a3.04 3.04 0 00-.42-1.48zm-1.87 2.21c-.19.19-.44.3-.69.3H2.99c-.17 0-.34-.05-.49-.13a.992.992 0 01-.37-1.35L10.6 2.48c.08-.14.2-.25.34-.33a.992.992 0 011.37.33l8.46 14.13c.09.15.13.32.13.49 0 .26-.1.51-.29.7z"></path>
+                    <path d="M11.45 12.1c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1s-1 .45-1 1v4c0 .56.45 1 1 1zM11.46 14.1c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Cette validation se fera à chaque assignation de cette variable :</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">function Test-Function {
+    param (
+        [Parameter()]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [string]$OperatingSystem
+    )
+
+    $OperatingSystem = &quot;Linux&quot;
+}</code></pre>
+</doc-codeblock></div>
+<p>Cette exemple renverra l&#x27;erreur suivante:</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-none"><code v-pre class="language-none">The variable cannot be validated because the value Linux is not a valid value for the OperatingSystem variable.</code></pre>
+</doc-codeblock></div>
+        </div>
+    </div>
+</div>
+<doc-anchor-target id="validatecount">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatecount">#</doc-anchor-trigger>
+        <span>ValidateCount</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>ValidateCount</code> spécifie le nombre de valeur minimal et maximal autorisé pour un paramètre</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">[ValidateCount(Int_min, Int_max)]</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validatelength">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatelength">#</doc-anchor-trigger>
+        <span>ValidateLength</span>
+    </h3>
+</doc-anchor-target>
+<p>Dans le cas d&#x27;un paramètre de type <code v-pre>[string]</code>. L&#x27;attribut <code v-pre>ValidateLength</code> spécifie le nombre de caractère minimal et maximal pour la valeur du paramètre.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">[ValidateLength(Int_min, Int_max)]</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validaterange">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validaterange">#</doc-anchor-trigger>
+        <span>ValidateRange</span>
+    </h3>
+</doc-anchor-target>
+<p>Dans le cas d&#x27;un paramètre de type <code v-pre>[int]</code> ou <code v-pre>[double]</code>. L&#x27;attribut <code v-pre>ValidateRange</code> spécifie la valeur minimale et maximal que ce paramètre peut recevoir comme valeur.</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre class="language-powershell"><code v-pre class="language-powershell">[ValidateRange(Int_min, Int_max)]</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validatepattern">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatepattern">#</doc-anchor-trigger>
+        <span>ValidatePattern</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>ValidatePattern</code> permet d&#x27;utiliser une expression régulière (RegEx) pour valider la valeur d&#x27;un paramètre.</p>
+<p>Dans cet exemple, on validera que la valeur du paramètre <code v-pre>-Telephone</code> soit un numéro de téléphone français valide :</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-powershell" data-line="4"><code v-pre class="language-powershell">function Test-Function {
+    param (
+        [Parameter()]
+        [ValidatePattern(&quot;^(0033|0|\+33)[1-9]([-. ]?[0-9]{2}){4}$&quot;)]
+        [string]$Telephone
+    )
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="validatescript">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#validatescript">#</doc-anchor-trigger>
+        <span>ValidateScript</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>ValidatePattern</code>  permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyé une variable de type <code v-pre>[bool]</code> (<code v-pre>$true</code> | <code v-pre>$false</code> ).</p>
+<p>Dans ce bloc de script, <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-red-600 bg-red-100 h-6 px-2 text-xs rounded-md">
+    <span>$_</span>
+</span> fera référence à la valeur du paramètre spécifié.</p>
+<p>Dans cet exemple, on validera que le chemin renseigné en valeur du paramètre <code v-pre>-Path</code> existe :</p>
+<div class="codeblock-wrapper"><doc-codeblock line-numbers>
+<pre class="language-powershell" data-line="4"><code v-pre class="language-powershell">function Test-Function {
+    param (
+        [Parameter()]
+        [ValidateScript({ Test-Path $_ })]
+        [string]$Path
+    )
+}</code></pre>
+</doc-codeblock></div>
+<doc-anchor-target id="allownull">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#allownull">#</doc-anchor-trigger>
+        <span>AllowNull</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>AllowNull</code> permet à la valeur d&#x27;un paramètre <strong>obligatoire</strong> d&#x27;être <code v-pre>$null</code></p>
+<doc-anchor-target id="allowemptystring">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#allowemptystring">#</doc-anchor-trigger>
+        <span>AllowEmptyString</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>AllowEmptyString</code> permet à la valeur d&#x27;un paramètre <strong>obligatoire</strong> de type <code v-pre>[string]</code> d&#x27;être vide <code v-pre>&quot;&quot;</code></p>
+<doc-anchor-target id="allowemptycollection">
+    <h3>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#allowemptycollection">#</doc-anchor-trigger>
+        <span>AllowEmptyCollection</span>
+    </h3>
+</doc-anchor-target>
+<p>L&#x27;attribut <code v-pre>AllowEmptyCollection</code> permet à la valeur d&#x27;un paramètre <strong>obligatoire</strong> d&#x27;être une collection vide <code v-pre>@()</code></p>
+<hr>
+<doc-anchor-target id="voir-plus-sur-learnmicrosoftcom">
+    <h4>
+        <doc-anchor-trigger class="header-anchor-trigger" to="#voir-plus-sur-learnmicrosoftcom">#</doc-anchor-trigger>
+        <span>Voir plus sur learn.microsoft.com</span>
+    </h4>
+</doc-anchor-target>
+<p><a href="https://learn.microsoft.com/fr-fr/powershell/scripting/developer/cmdlet/cmdlet-attributes?view=powershell-7.3" target="_blank" class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-blue-600 bg-blue-100 border border-blue-100 hover:border-blue-300 dark:hover:bg-blue-200 transition-colors duration-200 ease-out h-6 px-2 text-xs rounded-md">
+    <span>Attributs des applets de commandes</span>
+</a> -
+<a href="https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_functions_argument_completion?view=powershell-7.3" target="_blank" class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-blue-600 bg-blue-100 border border-blue-100 hover:border-blue-300 dark:hover:bg-blue-200 transition-colors duration-200 ease-out h-6 px-2 text-xs rounded-md">
+    <span>about_Functions_Argument_Completion</span>
+</a> - <a href="https://learn.microsoft.com/fr-fr/powershell/module/microsoft.powershell.core/about/about_functions_advanced_parameters?view=powershell-7.3" target="_blank" class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-blue-600 bg-blue-100 border border-blue-100 hover:border-blue-300 dark:hover:bg-blue-200 transition-colors duration-200 ease-out h-6 px-2 text-xs rounded-md">
+    <span>about_Functions_Advanced_Parameters</span>
+</a></p>
 
                                 
                                 <!-- Required only on API pages -->
@@ -438,10 +666,10 @@ Services Status
                                     </div>
                             
                                     <div class="w-1/2">
-                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../construire_son_code/guidelines/">
+                                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-blue-500 dark:text-blue-400 border border-gray-300 hover:border-gray-400 dark:border-dark-650 dark:hover:border-dark-450 rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../construire_son_code/outputs/">
                                             <span>
                                                 <span class="block text-xs font-normal text-right text-gray-400 dark:text-dark-400">Next</span>
-                                                <span class="block mt-1">Guidelines</span>
+                                                <span class="block mt-1">Ouputs</span>
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                                         </a>
