@@ -33,7 +33,7 @@ Stop
 
 
 !!!warning
-Supprimez l'ensemble des erreurs dans son script en configurant `$ErrorActionPreference = "SilentlyContinue"` au début de son script est une mauvaise habitude à ne pas prendre.
+Supprimer l'ensemble des erreurs dans son script en configurant `$ErrorActionPreference = "SilentlyContinue"` au début de son script est une mauvaise habitude à ne pas prendre.
 !!!
 
 Dans le cas où nous configurons `ErrorAction = Stop`, nous indiquons à Powershell de stopper toute éxécution en cas d'erreur. Dans le cas d'une boucle, une seule erreur dans celle ci, arretera toute les itérations de la boucle.

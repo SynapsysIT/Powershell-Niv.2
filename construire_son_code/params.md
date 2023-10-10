@@ -41,8 +41,6 @@ Cette option permet de rendre un paramètre **obligatoire**. Si ce paramètre es
 
 Si un position est rensignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres seront attribués en fonction de l'ordre dans lequelles ils ont étés renseignés.
 
-For example, the Get-ChildItem cmdlet has Path and Exclude parameters. The Position setting for Path is 0, which means that it is a positional parameter. The Position setting for Exclude is named.
-
 Par exemple, la commande `Get-ChildItem` à un paramètre `Path` qui une position **0**. Cette commande s'exécutera donc de la même manière dans tous les cas suivant:
 
 ```powershell
