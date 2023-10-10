@@ -22,7 +22,7 @@ Canal   | Description
 
 ## Ajouter des sorties Verbose et Debug
 
-La déclaration `[CmdletBinding()]` permet d'activer les *CommonsParameters* sur fonction ou votre script, dont `-Verbose` et `-Debug`.
+La déclaration `[CmdletBinding()]` permet d'activer les *CommonsParameters* sur votre fonction ou votre script, dont `-Verbose` et `-Debug`.
 
 Ces commandes ont pour but de faciliter le troubleshoot de votre code et de suivre son déroulement.
 
@@ -81,7 +81,7 @@ VERBOSE: End Get-ComputerStatus
 
 +++
 
-L'activation de ces paramètre activeront le Verbose et le Debug sur l'ensemble des commandes les prenant en compte dans votre code:
+L'activation de ces paramètres activeront le Verbose et le Debug sur l'ensemble des commandes les prenant en compte dans votre code:
 
 +++ :icon-code: Code
 
@@ -258,7 +258,7 @@ Note that this had no parameters
 +++
 
 
-### Output Préférence
+### Output Preference
 
 Les outputs de type **Warning**, **Error**, ou **Information** peuvent etre paramétrés en entrée de la commande ou du script via les paramètres:
 

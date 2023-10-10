@@ -18,7 +18,7 @@ $CPU = Get-CimInstance win32_processor
 $Volume = Get-Volume  -DriveLetter C
 ```
 
-Nous aurons plusieurs variables, alimentés par différentes commandes dont nous souhaitons consolidés la sortie en un objet :
+Nous aurons plusieurs variables, alimentés par différentes commandes dont nous souhaitons consolider la sortie en un objet :
 
 +++ :icon-code: Code
 ```powershell
@@ -59,7 +59,7 @@ foreach ($Computer in $Computer_List)
 }
 ```
 
-Si la collection obtenue dans la boucle dans servir dans un traitement plus loin dans le code, la boucle elle même pourra être renvoyé dans une variable.
+Si la collection obtenue dans la boucle doit servir dans un traitement plus loin dans le code, la boucle elle même pourra être renvoyée dans une variable.
 
 !!!warning
 On voit souvent dans ce cas, la création d'une liste vide et son incrémentation dans la boucle. **Cette méthode est à proscrire** pour des raisons de performance et de lisibilité.

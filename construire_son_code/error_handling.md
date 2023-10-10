@@ -95,10 +95,72 @@ C:\Windows\system32              22631       User01           00330-50181-42672-
 
 +++
 
-
 ```mermaid
 graph LR
     A[Execute Try Block] --> B{Error Occured ?}
     B -->|Yes| D[Execute Catch Block]
     B -->|No| E[Continue Try Block Execution] --> A
 ```
+
+!!!
+Dans un bloc `catch`, la variable [!badge variant="danger" text="$_"] correspondra au message de l'erreur qui a déclenchée son exécution
+!!!
+
+### Catcher par type d'exception
+
+Il est possible de renseigner plusieur block `catch` en définisant à chacun le type d'exception qui les déclencheras.
+
+Ici, cela nous permettra, par exemple, de définir si la suppression d'un fichier a échoué parce que le fichier est déja supprimé ou bien parce que nous n'avons pas les droits de le supprimer :
+
++++ :icon-code: Code
+```powershell
+$FilesToRemove = 'c:\notexist.txt', 'C:\hiberfil.sys'
+
+foreach ($File in $FilesToRemove)
+{
+    Try
+    {
+        Write-Verbose "Remove $File" -Verbose
+        Remove-Item $File -ErrorAction Stop
+    }
+    Catch [System.Management.Automation.ItemNotFoundException]
+    {
+        Write-Warning 'Le Fichier est introuvable'
+
+    }
+    Catch [System.IO.IOException]
+    {
+        Write-Warning "Vous n'avez pas les droits pour supprimer ce fichier"
+    }
+    Catch
+    {
+        Write-Warning 'Une erreur inconnue a été rencontrée'
+    }
+}
+```
+
++++ :icon-note: Output
+
+```txt
+VERBOSE: Remove c:\notexist.txt
+WARNING: Le Fichier est introuvable
+VERBOSE: Remove C:\hiberfil.sys
+WARNING: Vous n'avez pas les droits pour supprimer ce fichier
+```
+
++++
+
+!!! Pour identifier le type d'une exception:
+
+Juste aprés avoir rencontré l'erreur, éxécuter :
+
+```powershell
+$Error[0].exception.GetType().fullname
+```
+
+**Pour rappel:** [!badge variant="danger" text="$Error"] contient toutes les erreurs de la session, de la plus récente à la plus ancienne. `$Error[0]` renvoie donc la dernière erreur rencontrée.
+!!!
+
+## Bloc Finally
+
+Il est possible d'ajouter à un `Try/Catch` le bloc `Finally`. Celui-ci s'éxécutera à la fin du Try\Catch, que des erreurs aient été rencontrées ou non.

@@ -22,7 +22,7 @@ Prenons l'exemple d'une commande [!badge target="blank" text="New-ADUser"](https
 New-ADUser -DisplayName "Luke Skywalker" -Name "SKYWALKER" -SamAccountName "lskywalker" -UserPrincipalName "lskywalker@starwars.com" -Surname "Skywalker" -GivenName "Luke" -Path "OU=Users,DC=StarWars,DC=com" -AccountPassword $("Azerty123" | ConvertTo-SecureString -AsPlainText -Force) -Enabled $true
 ```
 
-En utilsant la méthode du splatting, on regroupe les paramètres dans une hashtable que nous appelerons ensuite dans une commande avec le préfixe [!badge variant="danger" target="blank" text="@"]
+En utilsant la méthode du splatting, on regroupe les paramètres dans une hashtable que nous appelerons ensuite dans la commande avec le préfixe [!badge variant="danger" target="blank" text="@"]
 
 ```powershell #13
 $NewADUserParam = @{
@@ -81,7 +81,7 @@ Add-DhcpServerv4Scope @DHCPScope @Common
 
 ## Format Operator
 
-Les Format Operateur permettent de simplifier des manipulations sur des chaînes qui pourrait néccéssiter plusieurs ligne de code:
+Les Format Operators permettent de simplifier des manipulations sur des chaînes qui pourrait néccéssiter plusieurs ligne de code:
 
 #### Arrondir une decimal à X chiffre aprés la virgule
 
@@ -176,7 +176,7 @@ Voir plus : [!badge target="blank" text="Formats Operators"](https://ss64.com/ps
 
 ## Type Accelerators
 
-Les Type Accelerators sont des méthode de classe .NET. Ils peuvent aussi faciliter certaines opérations et contrôles
+Les Type Accelerators sont des méthodes de classe .NET. Ils peuvent aussi faciliter certaines opérations et contrôles
 
 #### Vérifier la validité d'une adresse IP ou d'une URL
 
@@ -214,7 +214,7 @@ Major  Minor  Build  Revision
 
 ## RegEx
 
-Les expression régulières peuvent faire peur en apparence mais sont trés efficace pour extraire une information d'une chaîne de caractère:
+Les expression régulières peuvent faire peur en apparence mais sont trés efficaces pour extraire une information d'une chaîne de caractère:
 
 +++ :icon-code: Code
 

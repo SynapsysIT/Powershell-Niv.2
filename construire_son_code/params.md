@@ -35,11 +35,11 @@ param (
 
 ### Mandatory
 
-Cette option permet de rendre un paramètre **obligatoire**. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitre pour founir une valeur.
+Cette option permet de rendre un paramètre **obligatoire**. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.
 
 ### Position
 
-Si un position est rensignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres seront attribués en fonction de l'ordre dans lequelles ils ont étés renseignés.
+Si une position est renseignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres sera attribuée en fonction de l'ordre dans lesquelles ils ont été renseignés.
 
 Par exemple, la commande `Get-ChildItem` à un paramètre `Path` qui une position **0**. Cette commande s'exécutera donc de la même manière dans tous les cas suivant:
 
@@ -53,13 +53,13 @@ Dans le dernier exemple, le paramètre `Exclude` sera ignoré dans la position, 
 
 ### Parameter Set Name
 
-Les `ParameterSetName` permette de changer le comportement du code en fonction d'un groupe de paramètre utilisé.
+Les `ParameterSetName` permettent de changer le comportement du code en fonction d'un groupe de paramètre.
 
-Les règles suivantes s'applique au `ParameterSetName`:
+Les règles suivantes s'appliquent au `ParameterSetName`:
 
 - Seul un Set de paramètre peut être utilisé lors de l'appel de la fonction ou du script.
-- Si aucun Set est précisé, le paramètre appartient à tous les Sets.
-- Un paramètre peut appartenir à plusieurs Set
+- Si aucun Set n'est précisé, le paramètre appartient à tous les Sets.
+- Un paramètre peut appartenir à plusieurs Set.
   
 ```powershell Exemple d'utilisation
 function Convert-IPMask
@@ -98,7 +98,7 @@ function Convert-IPMask
 
 ### ValueFromPipeline
 
-Ce boolean permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline [!badge variant="danger" text="|"]
+Ce boolean permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline [!badge variant="danger" text="|"].
 
 +++ :icon-code: Code
 
@@ -188,7 +188,7 @@ VERBOSE: Process SERVER03
 
 ### ValueFromPipelineByPropertyName
 
-`ValueFromPipelineByPropertyName` permet de lier un paramètre à un une propriété de l'objet recu dans le pipeline **par leur nom**.
+`ValueFromPipelineByPropertyName` permet de lier un paramètre à une propriété de l'objet recu dans le pipeline **par leur nom**.
 
 Les deux doivent avoir le même type. Ici dans l'exemple, la propriété `Name` d'un objet `service` est un `[string]` et peut donc être récupérer par le paramètre `$Name` de notre commande.
 
@@ -249,7 +249,7 @@ Services Status
 
 ### ValueFromRemainingArguments
 
-`ValueFromRemainingArguments` permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande de la ligne de commande.
+`ValueFromRemainingArguments` permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande.
 
 +++ :icon-code: Code
 
@@ -290,7 +290,7 @@ VERBOSE: Remaining Arguments 2 : titi
 
 ### Alias
 
-L'attribut `alias` permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour faire le faire correspondre à plusieurs nom de propriétés possibles lorsqu'il est utilisé avec `ValueFromPipelineByPropertyName`.
+L'attribut `alias` permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour le faire correspondre à plusieurs nom de propriétés possibles lorsqu'il est utilisé avec `ValueFromPipelineByPropertyName`.
 
 ```powershell #2
     param (
@@ -313,7 +313,7 @@ L’attribut `ValidateNotNullOrEmpty` spécifie que la valeur affectée ne peut 
 
 ### ValidateSet
 
-L'attribut ValidateSet spécifie un ensemble de valeurs valide pour ce paramètre et permet l'auto-complétion lors de la saisie de la valeur.
+L'attribut `ValidateSet` spécifie un ensemble de valeurs valide pour ce paramètre et permet l'auto-complétion lors de la saisie de la valeur.
 
 ```powershell #3
     param (
@@ -390,7 +390,7 @@ function Test-Function {
 
 ### ValidateScript
 
-L'attribut `ValidatePattern`  permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyé une variable de type `[bool]` (`$true` | `$false` ).
+L'attribut `ValidateScript` permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyer une variable de type `[bool]` (`$true` | `$false` ).
 
 Dans ce bloc de script, [!badge variant="danger" text="$_"] fera référence à la valeur du paramètre spécifié.
 
