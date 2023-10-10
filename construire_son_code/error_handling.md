@@ -97,9 +97,9 @@ C:\Windows\system32              22631       User01           00330-50181-42672-
 
 ```mermaid
 graph LR
-    A[Execute Try Block] --> B{Error Occured ?}
-    B -->|Yes| D[Execute Catch Block]
-    B -->|No| E[Continue Try Block Execution] --> A
+    A(Execute Try Block) --> B{Error Occured ?}
+    B -->|Yes| D(Execute Catch Block)
+    B -->|No| E(Continue Try Block Execution) 
 ```
 
 !!!
