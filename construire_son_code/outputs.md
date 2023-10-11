@@ -67,8 +67,9 @@ On voit souvent dans ce cas, la création d'une liste vide et son incrémentatio
 
 
 +++ :icon-code: Bonne Méthode
+
 ```powershell
-$Result = foreach ($Computer in $Compiuter_List)
+$Result = foreach ($Computer in $Computer_List)
 {
     $OS = Get-CimInstance -ClassName Win32_OperatingSystem -ComputerName $Computer
     $CPU = Get-CimInstance win32_processor -ComputerName $Computer

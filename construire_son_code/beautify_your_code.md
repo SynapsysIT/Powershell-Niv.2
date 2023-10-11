@@ -189,7 +189,16 @@ Les Type Accelerators sont des méthodes de classe .NET. Ils peuvent aussi facil
 +++ :icon-note: Output
 
 ```txt
-00123
+AddressFamily      : InterNetwork
+ScopeId            :
+IsIPv6Multicast    : False
+IsIPv6LinkLocal    : False
+IsIPv6SiteLocal    : False
+IsIPv6Teredo       : False
+IsIPv6UniqueLocal  : False
+IsIPv4MappedToIPv6 : False
+Address            : 4278298816
+IPAddressToString  : 192.168.1.255
 ```
 
 +++

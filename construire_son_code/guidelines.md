@@ -25,7 +25,7 @@ gci c:\temp
 +++ :icon-thumbsup: Bien
 
 ```powershell
-Get-ChilItem -Path "c:\temp"
+Get-ChildItem -Path "c:\temp"
 ```
 
 +++
