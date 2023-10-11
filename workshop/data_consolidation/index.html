@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="turbo-root" content="/Powershell-Niv.2">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.750342377314">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="3.5.0.750349912527">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 3.5.0">
@@ -32,12 +32,12 @@
     <script data-cfasync="false">(function () { var el = document.documentElement, m = localStorage.getItem("doc_theme"), wm = window.matchMedia; if (m === "dark" || (!m && wm && wm("(prefers-color-scheme: dark)").matches)) { el.classList.add("dark") } else { el.classList.remove("dark") } })();</script>
 
     <link href="../../assets/logo_rhino_red.png" rel="icon">
-    <link href="../../resources/css/retype.css?v=3.5.0.750342377314" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=3.5.0.750349912527" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.750342377314" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=3.5.0.750349912527" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=3.5.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.750342377314" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.750342377314" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=3.5.0.750349912527" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=3.5.0.750349912527" defer></script>
 </head>
 <body>
     <div id="docs-app" class="relative text-base antialiased text-gray-700 bg-white font-body dark:bg-dark-850 dark:text-dark-300">
@@ -224,6 +224,65 @@
         </div>
     </div>
 </div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<div class="codeblock-title">SOLUTION</div>
+<pre class="language-powershell"><code v-pre class="language-powershell">Function Start-ConsolidateData
+{
+    &lt;#
+    .SYNOPSIS
+        A short one-line action-based description, e.g. 'Tests if a function is valid'
+    .DESCRIPTION
+        A longer description of the function, its purpose, common use cases, etc.
+    .NOTES
+        Information or caveats about the function e.g. 'This function is not supported in Linux'
+    .PARAMETER SourceFolderPath
+        Target Folder
+    .EXAMPLE
+        Start-ConsolidateData -SourceFolderPath C:\Logs
+    #&gt;
+
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true)]
+        [ValidateScript( { Test-Path $_ } )]
+        [string]$SourceFolderPath
+    )
+        #GCI
+        $Files = Get-ChildItem -Path $SourceFolderPath -File
+
+        #Change Culture in script process to handle US Date Format
+        [System.Threading.Thread]::CurrentThread.CurrentCulture = &quot;en-US&quot;
+
+
+        #Convert From Json
+        $Obj = foreach ($File in $Files)
+        {
+            try
+            {
+                Write-Verbose &quot;Process file: $($File.Name)&quot;
+                $Converted = Get-Content -Path $File.PSPath | ConvertFrom-Json -ErrorAction Stop
+                $Converted.RunDate  = Get-Date $Converted.RunDate
+
+                Write-Output $Converted
+            }
+            catch
+            {
+                Write-Warning &quot;Le fichier $($File.Name) n'est pas un fichier JSON valide.&quot;
+            }
+
+        }
+
+        [PSCustomObject]@{
+            TotalProcessedItems = ($Obj | Measure-Object -Property &quot;Items processed&quot; -Sum).Sum
+            TotalFiles          = $Obj.count
+            TotalErrors         = ($Obj | Measure-Object -Property Errors -Sum).Sum
+            AverageWarnings     = &quot;{0:n2}&quot; -f ($Obj | Measure-Object -Property Warnings -Average).Average
+            First               = ($Obj | Sort-Object -Property RunDate)[0]
+            Last                = ($Obj | Sort-Object -Property RunDate)[-1]
+        }
+}</code></pre>
+</doc-codeblock></div>
 
                                 
                                 <!-- Required only on API pages -->
