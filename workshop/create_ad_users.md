@@ -17,3 +17,22 @@ Le champ "Service" du fichier définira l'OU cible qui devras être créee si n�
 !!!warning
 Cette fonction devra recevoir en paramètre un chemin d'accés vers le fichier (à minima)
 !!!
+
+### Aide
+
+```powershell 
+function Create-Password {
+    param (
+        [int]$Length = 15
+    )
+
+        $MyRange += 65..90 #UpperCase
+        $MyRange += 97..122 #LowerCase
+        $MyRange += 48..57 #Numbers
+        $MyRange += (33..47) + (58..64) + (91..96) + (123..126) #Specials Characters
+
+
+($MyRange | Get-Random -Count $Length | % { [char]$_ }) -join ''
+
+}
+```
