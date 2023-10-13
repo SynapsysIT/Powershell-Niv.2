@@ -113,6 +113,7 @@ Il est possible de renseigner plusieur block `catch` en définisant à chacun le
 Ici, cela nous permettra, par exemple, de définir si la suppression d'un fichier a échoué parce que le fichier est déja supprimé ou bien parce que nous n'avons pas les droits de le supprimer :
 
 +++ :icon-code: Code
+
 ```powershell
 $FilesToRemove = 'c:\notexist.txt', 'C:\hiberfil.sys'
 
