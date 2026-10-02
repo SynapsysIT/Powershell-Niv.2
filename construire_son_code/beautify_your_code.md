@@ -16,67 +16,78 @@ Le *splatting* est une technique consistant à définir les paramètres d'une co
 
 Le principal avantage de cette technique est qu'elle permet de rendre plus lisible certaines commandes qui peuvent devenir trés longue.
 
-Prenons l'exemple d'une commande [!badge target="blank" text="New-ADUser"](https://learn.microsoft.com/en-us/powershell/module/activedirectory/new-aduser?view=windowsserver2022-ps) standard :
+Prenons l'exemple d'une commande [!badge target="blank" text="New-MgUser"](https://learn.microsoft.com/powershell/module/microsoft.graph.users/new-mguser) standard :
 
 ```powershell
-New-ADUser -DisplayName "Luke Skywalker" -Name "SKYWALKER" -SamAccountName "lskywalker" -UserPrincipalName "lskywalker@starwars.com" -Surname "Skywalker" -GivenName "Luke" -Path "OU=Users,DC=StarWars,DC=com" -AccountPassword $("Azerty123" | ConvertTo-SecureString -AsPlainText -Force) -Enabled $true
+New-MgUser -DisplayName "Luke Skywalker" -GivenName "Luke" -Surname "Skywalker" -UserPrincipalName "lskywalker@SynapsysTest.onmicrosoft.com" -MailNickname "lskywalker" -UsageLocation "FR" -AccountEnabled -PasswordProfile @{ Password = "Azerty123!"; ForceChangePasswordNextSignIn = $true }
 ```
 
-En utilsant la méthode du splatting, on regroupe les paramètres dans une hashtable que nous appelerons ensuite dans la commande avec le préfixe [!badge variant="danger" target="blank" text="@"]
+En utilisant la méthode du splatting, on regroupe les paramètres dans une hashtable que nous appellerons ensuite dans la commande avec le préfixe [!badge variant="danger" target="blank" text="@"]
 
-```powershell #13
-$NewADUserParam = @{
-        DisplayName       = "Luke Skywalker"
-        Name              = "SKYWALKER"
-        SamAccountName    = "lskywalker"
-        UserPrincipalName = "lskywalker@starwars.com"
-        Surname           = "Skywalker"
-        GivenName         = "Luke"
-        Path              = "OU=Users,DC=StarWars,DC=com"
-        AccountPassword   = $("Azerty123" | ConvertTo-SecureString -AsPlainText -Force)
-        Enabled           = $true
+```powershell #15
+$NewMgUserParams = @{
+    DisplayName       = "Luke Skywalker"
+    GivenName         = "Luke"
+    Surname           = "Skywalker"
+    UserPrincipalName = "lskywalker@SynapsysTest.onmicrosoft.com"
+    MailNickname      = "lskywalker"
+    UsageLocation     = "FR"
+    AccountEnabled    = $true
+    PasswordProfile   = @{
+        Password                      = "Azerty123!"
+        ForceChangePasswordNextSignIn = $true
     }
-
-New-ADUSer @NewADUserParams
-```
-
-Le deuxième avantage est de pouvoir adapter les paramètres en fonction de certaines conditions sans avoir à répéter plusieurs fois la commande dans notre code:
-
-```powershell
-if ($Credentials) # Si des credentials ont étés fournis
-{
-    $NewADUserParams["Credential"] = $Credentials
 }
 
-New-ADUSer @NewADUserParams
+New-MgUser @NewMgUserParams
+```
+
+!!!
+Une valeur de splat peut elle-même être une hashtable : c'est le cas de `PasswordProfile`, qui correspond à un objet imbriqué dans l'API Graph.
+!!!
+
+Le deuxième avantage est de pouvoir adapter les paramètres en fonction de certaines conditions sans avoir à répéter plusieurs fois la commande dans notre code :
+
+```powershell
+if ($Department) # Si un service a été fourni
+{
+    $NewMgUserParams["Department"] = $Department
+}
+
+New-MgUser @NewMgUserParams
 ```
 
 ```powershell
-if ($SamAccountName -like "ADM-*")
+if ($NewMgUserParams.UserPrincipalName -like "adm-*")
 {
-    $NewADUserParams["Path"] = "OU=Admins,DC=StarWars,DC=com"
+    # Les comptes d'administration doivent valider une MFA au premier changement de mot de passe
+    $NewMgUserParams.PasswordProfile["ForceChangePasswordNextSignInWithMfa"] = $true
 }
 
-New-ADUSer @NewADUserParams
+New-MgUser @NewMgUserParams
 ```
 
-Plusieurs *"splat"* peuvent être combinés:
+Plusieurs *"splat"* peuvent être combinés :
 
 ```powershell
 $Common = @{
-    SubnetMask  = '255.255.255.0'
-    LeaseDuration = (New-TimeSpan -Days 8)
-    Type = "Both"
+    UsageLocation  = "FR"
+    CompanyName    = "Rebel Alliance"
+    AccountEnabled = $true
+    PasswordProfile = @{
+        Password                      = "Azerty123!"
+        ForceChangePasswordNextSignIn = $true
+    }
 }
 
-$DHCPScope = @{
-    Name        = 'TestNetwork'
-    StartRange  = '10.0.0.2'
-    EndRange    = '10.0.0.254'
-    Description = 'Network for testlab A'
+$User = @{
+    DisplayName       = "Leia Organa"
+    UserPrincipalName = "lorgana@SynapsysTest.onmicrosoft.com"
+    MailNickname      = "lorgana"
+    Department        = "Commandement"
 }
 
-Add-DhcpServerv4Scope @DHCPScope @Common
+New-MgUser @User @Common
 ```
 
 ## Format Operator

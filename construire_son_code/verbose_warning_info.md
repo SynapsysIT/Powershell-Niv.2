@@ -30,24 +30,30 @@ Les commandes [!badge target="blank" text="Write-Verbose"](https://go.microsoft.
 
 +++ :icon-code: Code
 
-```powershell #11,19,21,29
-function Get-ComputerStatus
+```powershell #9,15,16,17,28
+function Get-EntraUserStatus
 {
     [CmdletBinding()]
     param (
-        [string[]]$ComputerName
+        [string[]]$UserPrincipalName
     )
     begin
     {
         Write-Verbose "Start $($MyInvocation.MyCommand)"
     }
     process
-    {    
-        foreach ($Computer in $ComputerName)
+    {
+        foreach ($User in $UserPrincipalName)
         {
-            Write-Verbose "Querying $Computer"
-            Write-Debug "[$Computer]Debug Message "
-            <# Votre Code #>
+            Write-Verbose "Querying $User"
+            $EntraUser = Get-MgUser -UserId $User -Property Id, DisplayName, AccountEnabled
+            Write-Debug "[$User] Object Id : $($EntraUser.Id)"
+
+            [PSCustomObject]@{
+                UserPrincipalName = $User
+                DisplayName       = $EntraUser.DisplayName
+                Enabled           = $EntraUser.AccountEnabled
+            }
         }
     }
     end
@@ -60,71 +66,91 @@ function Get-ComputerStatus
 +++ :icon-note: Run with Verbose
 
 ```txt
-ﲵ  Get-ComputerStatus -ComputerName Computer01,Computer02 -Verbose
-VERBOSE: Start Get-ComputerStatus
-VERBOSE: Querying Computer01
-VERBOSE: Querying Computer02
-VERBOSE: End Get-ComputerStatus
+ﲵ Get-EntraUserStatus -UserPrincipalName lskywalker@SynapsysTest.onmicrosoft.com,lorgana@SynapsysTest.onmicrosoft.com -Verbose
+VERBOSE: Start Get-EntraUserStatus
+VERBOSE: Querying lskywalker@SynapsysTest.onmicrosoft.com
+
+UserPrincipalName                       DisplayName    Enabled
+-----------------                       -----------    -------
+lskywalker@SynapsysTest.onmicrosoft.com Luke Skywalker    True
+VERBOSE: Querying lorgana@SynapsysTest.onmicrosoft.com
+lorgana@SynapsysTest.onmicrosoft.com    Leia Organa      False
+VERBOSE: End Get-EntraUserStatus
 ```
 
 +++ :icon-note: Run with Verbose + Debug
 
 ```txt
-ﲵ Get-ComputerStatus -ComputerName Computer01,Computer02 -Verbose -Debug
-VERBOSE: Start Get-ComputerStatus
-VERBOSE: Querying Computer01
-DEBUG: Debug Message
-VERBOSE: Querying Computer02
-DEBUG: Debug Message
-VERBOSE: End Get-ComputerStatus
+ﲵ Get-EntraUserStatus -UserPrincipalName lskywalker@SynapsysTest.onmicrosoft.com,lorgana@SynapsysTest.onmicrosoft.com -Verbose -Debug
+VERBOSE: Start Get-EntraUserStatus
+VERBOSE: Querying lskywalker@SynapsysTest.onmicrosoft.com
+DEBUG: [lskywalker@SynapsysTest.onmicrosoft.com] Object Id : 3f2a6c1e-8b4d-4e7a-9c21-5d8e7f1a2b3c
+
+UserPrincipalName                       DisplayName    Enabled
+-----------------                       -----------    -------
+lskywalker@SynapsysTest.onmicrosoft.com Luke Skywalker    True
+VERBOSE: Querying lorgana@SynapsysTest.onmicrosoft.com
+DEBUG: [lorgana@SynapsysTest.onmicrosoft.com] Object Id : 9b7e4d2a-1c3f-4a6b-8e5d-2f1a7c9b4e6d
+lorgana@SynapsysTest.onmicrosoft.com    Leia Organa      False
+VERBOSE: End Get-EntraUserStatus
 ```
 
 +++
 
-L'activation de ces paramètres activeront le Verbose et le Debug sur l'ensemble des commandes les prenant en compte dans votre code:
+!!!warning Windows PowerShell 5.1
+Sous Windows PowerShell 5.1, `-Debug` passe `$DebugPreference` à `Inquire` : l'exécution s'arrête et demande confirmation à **chaque** `Write-Debug`. Depuis PowerShell 7, la valeur est `Continue`.
+!!!
+
+L'activation de ces paramètres activera le Verbose et le Debug sur les commandes **de votre code** qui les prennent en compte. Avec le SDK Microsoft Graph, `-Debug` affiche le détail de **chaque requête HTTP** envoyée à l'API : un outil précieux pour comprendre ce que fait réellement une cmdlet `*-Mg*`.
+
+!!!warning Les préférences ne traversent pas les modules
+`-Debug` sur une fonction ne fait que passer `$DebugPreference` à `Continue` **dans sa portée**. Les cmdlets `*-Mg*` sont exposées par un module, qui lit ses propres variables de préférence : elles **n'héritent pas** du `-Debug` de votre fonction. De plus, le SDK Graph n'affiche les requêtes HTTP que si `-Debug` est **explicitement passé** à la cmdlet.
+
+Il faut donc transmettre le paramètre explicitement, ici à l'aide d'un splat conditionnel.
+!!!
 
 +++ :icon-code: Code
 
-```powershell #11,19,21,29
-function Get-ComputerStatus
+```powershell #12,13,27,28
+function Get-EntraUserStatus
 {
-
     [CmdletBinding()]
     param (
-        [string[]]$ComputerName
+        [string[]]$UserPrincipalName
     )
-    
     begin
     {
         Write-Verbose "Start $($MyInvocation.MyCommand)"
+
+        # Transmet -Debug aux cmdlets Graph uniquement s'il a été passé à la fonction
+        $GraphCommon = @{}
+        if ($PSBoundParameters.ContainsKey('Debug')) { $GraphCommon['Debug'] = $true }
     }
-    
     process
-    {    
-        foreach ($Computer in $ComputerName)
+    {
+        foreach ($User in $UserPrincipalName)
         {
+            Write-Verbose "Querying $User"
 
-            Write-Verbose "Querying $Computer"
-
-                $OS = Get-CimInstance -ClassName Win32_OperatingSystem -ComputerName $Computer
-                $CPU = Get-CimInstance win32_processor -ComputerName $Computer
-                $Volume = Get-Volume -CimSession $Computer -DriveLetter C
-
-                [PSCustomObject]@{
-                    ComputerName  = $OS.CSName
-                    OSVersion     = $OS.Caption, $OS.Version -join ' '
-                    CPUName       = $CPU.Name
-                    CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024, 2)
-                    FreeSpace     = ($Volume.SizeRemaining / $Volume.Size).ToString('P')
-                }
+            $Params = @{
+                UserId   = $User
+                Property = 'DisplayName', 'UserPrincipalName', 'AccountEnabled', 'Department', 'CreatedDateTime'
             }
+            Write-Debug "[$User] Properties : $($Params.Property -join ', ')"
 
-            Write-Debug 'Debug Message '
+            $EntraUser = Get-MgUser @Params @GraphCommon
+            $Licenses  = Get-MgUserLicenseDetail -UserId $User @GraphCommon
 
-            <# Votre Code #>
+            [PSCustomObject]@{
+                DisplayName       = $EntraUser.DisplayName
+                UserPrincipalName = $EntraUser.UserPrincipalName
+                Enabled           = $EntraUser.AccountEnabled
+                Department        = $EntraUser.Department
+                Created           = $EntraUser.CreatedDateTime
+                Licenses          = $Licenses.SkuPartNumber -join ', '
+            }
         }
-    
-    
+    }
     end
     {
         Write-Verbose "End $($MyInvocation.MyCommand)"
@@ -132,74 +158,90 @@ function Get-ComputerStatus
 }
 ```
 
-+++ :icon-note: Run with Verbose + Debug
++++ :icon-note: Run with Verbose
 
 ```txt
-ﲵ Get-ComputerStatus -ComputerName Computer01,Computer02 -Verbose
+ﲵ Get-EntraUserStatus -UserPrincipalName lskywalker@SynapsysTest.onmicrosoft.com -Verbose
+VERBOSE: Start Get-EntraUserStatus
+VERBOSE: Querying lskywalker@SynapsysTest.onmicrosoft.com
 
-VERBOSE: Start Get-ComputerStatus
-VERBOSE: Querying localhost
-VERBOSE: Perform operation 'Enumerate CimInstances' with following parameters, ''className' = Win32_OperatingSystem,'namespaceName' = root\cimv2'.
-VERBOSE: Operation 'Enumerate CimInstances' complete.
-VERBOSE: Perform operation 'Enumerate CimInstances' with following parameters, ''className' = win32_processor,'namespaceName' = root\cimv2'.
-VERBOSE: Operation 'Enumerate CimInstances' complete.
+DisplayName       : Luke Skywalker
+UserPrincipalName : lskywalker@SynapsysTest.onmicrosoft.com
+Enabled           : True
+Department        : Jedi
+Created           : 02/10/2026 07:30:12
+Licenses          : DEVELOPERPACK_E5
 
-ComputerName  : Computer01
-OSVersion     : Microsoft Windows 11 Professionnel 10.0.22621
-CPUName       : Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
-CPUClockSpeed : 3,61
-FreeSpace     : 2,84 %
+VERBOSE: End Get-EntraUserStatus
+```
 
-DEBUG: Debug Message
-VERBOSE: Querying localhost
-VERBOSE: Perform operation 'Enumerate CimInstances' with following parameters, ''className' = Win32_OperatingSystem,'namespaceName' = root\cimv2'.
-VERBOSE: Operation 'Enumerate CimInstances' complete.
-VERBOSE: Perform operation 'Enumerate CimInstances' with following parameters, ''className' = win32_processor,'namespaceName' = root\cimv2'.
-VERBOSE: Operation 'Enumerate CimInstances' complete.
++++ :icon-note: Run with Debug
 
-ComputerName  : Computer02
-OSVersion     : Microsoft Windows 11 Professionnel 10.0.22621
-CPUName       : Intel(R) Core(TM) i7-8700K CPU @ 3.70GHz
-CPUClockSpeed : 3,61
-FreeSpace     : 25,44 %
-
-DEBUG: Debug Message
-VERBOSE: End Get-ComputerStatus
+```txt
+ﲵ Get-EntraUserStatus -UserPrincipalName lskywalker@SynapsysTest.onmicrosoft.com -Debug
+DEBUG: [lskywalker@SynapsysTest.onmicrosoft.com] Properties : DisplayName, UserPrincipalName, AccountEnabled, Department, CreatedDateTime
+DEBUG: ============================ HTTP REQUEST ============================
+HTTP Method:
+GET
+Absolute Uri:
+https://graph.microsoft.com/v1.0/users/lskywalker@SynapsysTest.onmicrosoft.com?$select=DisplayName,UserPrincipalName,AccountEnabled,Department,CreatedDateTime
+...
+DEBUG: ============================ HTTP RESPONSE ============================
+Status Code:
+OK
+...
 ```
 
 +++
 
 !!!
-On peut désactiver la sortie Verbose ou Debug d'une commande en désactivant le paramètre de manière explicite: `-Verbose:$false`
+On peut désactiver la sortie Verbose ou Debug d'une commande en désactivant le paramètre de manière explicite : `Get-MgUser @Params -Debug:$false`
 !!!
 
 ## Warning Output
 
-[!badge target="blank" text="Write-Warning"](https://go.microsoft.com/fwlink/?LinkID=2097044) fonctionne comme les commandes précédentes, à la différence que les messages de type Warning sont activés par defaut.
-
+[!badge target="blank" text="Write-Warning"](https://go.microsoft.com/fwlink/?LinkID=2097044) fonctionne comme les commandes précédentes, à la différence que les messages de type Warning sont activés par défaut.
 
 +++ :icon-code: Code
 
-```powershell #17
-function Get-ComputerStatus
+```powershell #19,24,30
+function Get-EntraUserStatus
 {
     [CmdletBinding()]
     param (
-        [string[]]$ComputerName
+        [string[]]$UserPrincipalName
     )
     begin
     {
         Write-Verbose "Start $($MyInvocation.MyCommand)"
     }
     process
-    {    
-        foreach ($Computer in $ComputerName)
+    {
+        foreach ($User in $UserPrincipalName)
         {
-            if (-not (Test-Connection $Computer -Quiet -Count 1))
+            $EntraUser = Get-MgUser -Filter "userPrincipalName eq '$User'" -Property Id, UserPrincipalName, AccountEnabled
+
+            if (-not $EntraUser)
             {
-                Write-Warning "$Computer is not reachable. Skip !"
+                Write-Warning "$User not found in Entra ID. Skip !"
+                continue
             }
-            <# Votre Code #>
+            if (-not $EntraUser.AccountEnabled)
+            {
+                Write-Warning "$User is disabled."
+            }
+
+            $Licenses = Get-MgUserLicenseDetail -UserId $EntraUser.Id
+            if (-not $Licenses)
+            {
+                Write-Warning "$User has no license assigned."
+            }
+
+            [PSCustomObject]@{
+                UserPrincipalName = $EntraUser.UserPrincipalName
+                Enabled           = $EntraUser.AccountEnabled
+                Licenses          = $Licenses.SkuPartNumber -join ', '
+            }
         }
     }
     end
@@ -212,10 +254,17 @@ function Get-ComputerStatus
 +++ :icon-note: Output
 
 ```txt
-ﲵ Get-ComputerStatus -ComputerName Computer01,ComputerXX -Verbose -Debug
-VERBOSE: Start Get-ComputerStatus
-WARNING: ComputerXX is not reachable. Skip !
-VERBOSE: End Get-ComputerStatus
+ﲵ Get-EntraUserStatus -UserPrincipalName lskywalker@SynapsysTest.onmicrosoft.com,lorgana@SynapsysTest.onmicrosoft.com,hsolo@SynapsysTest.onmicrosoft.com -Verbose
+VERBOSE: Start Get-EntraUserStatus
+
+UserPrincipalName                       Enabled Licenses
+-----------------                       ------- --------
+lskywalker@SynapsysTest.onmicrosoft.com    True DEVELOPERPACK_E5
+WARNING: lorgana@SynapsysTest.onmicrosoft.com is disabled.
+WARNING: lorgana@SynapsysTest.onmicrosoft.com has no license assigned.
+lorgana@SynapsysTest.onmicrosoft.com      False
+WARNING: hsolo@SynapsysTest.onmicrosoft.com not found in Entra ID. Skip !
+VERBOSE: End Get-EntraUserStatus
 ```
 
 +++

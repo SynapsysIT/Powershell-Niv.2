@@ -1,0 +1,129 @@
+---
+icon: upload
+order: 20
+title: Documenter et publier
+---
+
+# Documenter et publier un module
+
+## Documenter
+
+### L'aide intégrée
+
+Chaque fonction publique **doit** avoir son aide intégrée (voir [Intégrer une aide](../construire_son_code/comment_based_help.md)). C'est le minimum pour que `Get-Help Get-SynComputerInfo -Examples` fonctionne.
+
+On peut ajouter une aide générale sur le module via un fichier texte `about_` :
+
+```
+SynInventory\
+└── en-US\
+    └── about_SynInventory.help.txt
+```
+
+```powershell
+Get-Help about_SynInventory
+```
+
+### Générer une documentation Markdown avec PlatyPS
+
+[PlatyPS](https://learn.microsoft.com/powershell/utility-modules/platyps/overview) génère une page Markdown par commande à partir de l'aide intégrée. Idéal pour un wiki interne ou un README.
+
+```powershell
+Install-Module platyPS -Scope CurrentUser
+Import-Module .\SynInventory -Force
+
+New-MarkdownHelp -Module SynInventory -OutputFolder .\docs -WithModulePage
+```
+
+!!!
+Une version 1.0 (module `Microsoft.PowerShell.PlatyPS`) renomme ces commandes (`New-MarkdownCommandHelp`...). Le principe reste le même.
+!!!
+
+### Tenir un changelog
+
+Un fichier `CHANGELOG.md` à la racine du module, aligné sur `ModuleVersion` :
+
+```markdown
+## [1.1.0] - 2026-10-01
+### Added
+- Propriété `Uptime` dans Get-SynComputerInfo
+
+## [1.0.0] - 2026-09-29
+- Version initiale
+```
+
+## Versionner avec SemVer
+
+| Changement | Exemple | Nouvelle version |
+|---|---|---|
+| Correctif sans impact | Correction d'un calcul | 1.0.**1** |
+| Nouvelle fonctionnalité compatible | Nouveau paramètre optionnel, nouvelle propriété | 1.**1**.0 |
+| Changement cassant | Paramètre renommé, fonction supprimée | **2**.0.0 |
+
+## Publier
+
+### PowerShellGet v2 ou PSResourceGet ?
+
+| | PowerShellGet v2 | PSResourceGet |
+|---|---|---|
+| Module | `PowerShellGet` | `Microsoft.PowerShell.PSResourceGet` |
+| Livré avec | Windows PowerShell 5.1 | PowerShell 7.4+ |
+| Commandes | `*-Module`, `*-PSRepository` | `*-PSResource`, `*-PSResourceRepository` |
+
+!!!
+PSResourceGet est le successeur de PowerShellGet. Il s'installe aussi sur Windows PowerShell 5.1 : `Install-Module Microsoft.PowerShell.PSResourceGet`.
+!!!
+
+### Un dépôt interne sur partage de fichiers
+
+Le plus simple des dépôts : un partage réseau contenant des fichiers `.nupkg`.
+
++++ PSResourceGet
+```powershell
+# Déclarer le dépôt (une fois par poste)
+Register-PSResourceRepository -Name SynRepo -Uri '\\srv-files\PSRepo' -Trusted
+
+# Publier
+Publish-PSResource -Path .\SynInventory -Repository SynRepo
+
+# Rechercher / installer / mettre à jour
+Find-PSResource    -Name SynInventory -Repository SynRepo -Version *
+Install-PSResource -Name SynInventory -Repository SynRepo -Scope CurrentUser
+Update-PSResource  -Name SynInventory
+```
++++ PowerShellGet v2
+```powershell
+Register-PSRepository -Name SynRepo `
+    -SourceLocation '\\srv-files\PSRepo' `
+    -PublishLocation '\\srv-files\PSRepo' `
+    -InstallationPolicy Trusted
+
+Publish-Module -Path .\SynInventory -Repository SynRepo
+
+Find-Module    -Name SynInventory -Repository SynRepo -AllVersions
+Install-Module -Name SynInventory -Repository SynRepo -Scope CurrentUser
+Update-Module  -Name SynInventory
+```
++++
+
+!!!warning
+La publication échoue si le manifeste ne contient pas `Author` **et** `Description`, ou si la version existe déjà dans le dépôt. Pensez à `Update-ModuleManifest -ModuleVersion` avant chaque publication.
+!!!
+
+Pour aller plus loin, un dépôt NuGet (Azure Artifacts, Nexus, ProGet...) remplace avantageusement le partage de fichiers : authentification, rétention des versions, intégration CI/CD.
+
+### La PowerShell Gallery
+
+Pour un module public, sur [powershellgallery.com](https://www.powershellgallery.com) :
+
+1. Créer un compte et générer une **clé d'API**.
+2. Vérifier que le nom du module est libre : `Find-PSResource -Name MonModule`.
+3. Publier :
+
+```powershell
+Publish-PSResource -Path .\MonModule -Repository PSGallery -ApiKey $env:PSGALLERY_KEY
+```
+
+!!!danger
+Ne stockez **jamais** la clé d'API en clair dans un script ou dans Git. Utilisez une variable d'environnement, un coffre (`Microsoft.PowerShell.SecretManagement`) ou les secrets de votre pipeline CI.
+!!!
