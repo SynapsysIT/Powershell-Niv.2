@@ -1,0 +1,29 @@
+﻿# Powershell Niv.2
+
+> Le but de cette formation de perfectionnement en Powershell est de donner les clés et les techniques pour passer d'un code "vite-fait" à un code:
+
+- [Powershell Niv.2](https://synapsysit.github.io/Powershell-Niv.2/index.md): Powershell Niv.2
+- [Construire son code](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/index.md): On identifira rapidement une ou deux commandes qui seront le coeur de notre code.
+- [Créer ses modules](https://synapsysit.github.io/Powershell-Niv.2/modules/index.md): Une fonction bien construite n'a de valeur que si elle est réutilisable et distribuable. Copier-coller une fonction d'un script à l'autre, ou la charger
+
+## Construire son code
+
+- [Paramètres](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params.md): Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.
+- [Ouputs](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/outputs.md): Dans la plupart des cas, votre script aura à renvoyer des données. Il convient alors de le faire dans la philophie de Powershell et de les renvoyer sous forme d'objets.
+- [Mise en forme](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/beautify_your_code.md): Il existe plusieurs méthodes à connaitre pour simplifier et faciliter la lisibilité de votre code.
+- [Verbose, Warning and Information Output](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/verbose_warning_info.md): Il est utile de connaitre les 6 canaux de sorties de Powershell:
+- [Intégrer une aide](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/comment_based_help.md): On peut intégrer une aide dans sa fonction ou son script via un bloc de commentaire dédié:
+- [Gérer les erreurs](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/error_handling.md): En Powershell, il existe deux types d'erreur:
+- [Guidelines](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/guidelines.md): Inutile de décrire vos actions, c'est détailler la raison pour laquelle un bout de code est présent qui importe.
+
+## Créer ses modules
+
+- [Structurer un module](https://synapsysit.github.io/Powershell-Niv.2/modules/structure.md): On sépare les fonctions publiques (exposées à l'utilisateur) des fonctions privées (helpers internes), à raison d'un fichier par fonction :
+- [Documenter et publier](https://synapsysit.github.io/Powershell-Niv.2/modules/publication.md): Chaque fonction publique doit avoir son aide intégrée (voir Intégrer une aide). C'est le minimum pour que Get-Help Get-SynComputerInfo -Examples fonctionne.
+
+## Workshop
+
+- [JSON Data Consolidation](https://synapsysit.github.io/Powershell-Niv.2/workshop/data_consolidation.md): Cloner le resository sur votre machine:
+- [Computer Info](https://synapsysit.github.io/Powershell-Niv.2/workshop/computer_info.md): Coder une fonction qui pourra requêter une machine distante et renvoyer:
+- [Create AD Users](https://synapsysit.github.io/Powershell-Niv.2/workshop/create_ad_users.md): Cloner le resository sur votre machine:
+- [Module SynInventory](https://synapsysit.github.io/Powershell-Niv.2/workshop/module_inventory.md): Objectif : transformer la fonction de l'atelier Computer Info en un module versionné, documenté et publié dans un dépôt interne.

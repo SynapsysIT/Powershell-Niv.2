@@ -1,0 +1,257 @@
+# Beautify and Simplify your code
+
+Il existe plusieurs méthodes à connaitre pour simplifier et faciliter la lisibilité de votre code.
+
+Rappelez vous de l'existence des ces méthodes avant de vous lancer dans des bouts de code alambiqués.
+
+## Splatting
+
+Le *splatting* est une technique consistant à définir les paramètres d'une commande sous forme de `[hashtable]`.
+
+Le principal avantage de cette technique est qu'elle permet de rendre plus lisible certaines commandes qui peuvent devenir trés longue.
+
+Prenons l'exemple d'une commande [!badge target="blank" text="New-MgUser"](https://learn.microsoft.com/powershell/module/microsoft.graph.users/new-mguser) standard :
+
+```powershell
+New-MgUser -DisplayName "Luke Skywalker" -GivenName "Luke" -Surname "Skywalker" -UserPrincipalName "lskywalker@SynapsysTest.onmicrosoft.com" -MailNickname "lskywalker" -UsageLocation "FR" -AccountEnabled -PasswordProfile @{ Password = "Azerty123!"; ForceChangePasswordNextSignIn = $true }
+```
+
+En utilisant la méthode du splatting, on regroupe les paramètres dans une hashtable que nous appellerons ensuite dans la commande avec le préfixe [!badge variant="danger" target="blank" text="@"]
+
+```powershell #15
+$NewMgUserParams = @{
+    DisplayName       = "Luke Skywalker"
+    GivenName         = "Luke"
+    Surname           = "Skywalker"
+    UserPrincipalName = "lskywalker@SynapsysTest.onmicrosoft.com"
+    MailNickname      = "lskywalker"
+    UsageLocation     = "FR"
+    AccountEnabled    = $true
+    PasswordProfile   = @{
+        Password                      = "Azerty123!"
+        ForceChangePasswordNextSignIn = $true
+    }
+}
+
+New-MgUser @NewMgUserParams
+```
+
+!!!
+Une valeur de splat peut elle-même être une hashtable : c'est le cas de `PasswordProfile`, qui correspond à un objet imbriqué dans l'API Graph.
+!!!
+
+Le deuxième avantage est de pouvoir adapter les paramètres en fonction de certaines conditions sans avoir à répéter plusieurs fois la commande dans notre code :
+
+```powershell
+if ($Department) # Si un service a été fourni
+{
+    $NewMgUserParams["Department"] = $Department
+}
+
+New-MgUser @NewMgUserParams
+```
+
+```powershell
+if ($NewMgUserParams.UserPrincipalName -like "adm-*")
+{
+    # Les comptes d'administration doivent valider une MFA au premier changement de mot de passe
+    $NewMgUserParams.PasswordProfile["ForceChangePasswordNextSignInWithMfa"] = $true
+}
+
+New-MgUser @NewMgUserParams
+```
+
+Plusieurs *"splat"* peuvent être combinés :
+
+```powershell
+$Common = @{
+    UsageLocation  = "FR"
+    CompanyName    = "Rebel Alliance"
+    AccountEnabled = $true
+    PasswordProfile = @{
+        Password                      = "Azerty123!"
+        ForceChangePasswordNextSignIn = $true
+    }
+}
+
+$User = @{
+    DisplayName       = "Leia Organa"
+    UserPrincipalName = "lorgana@SynapsysTest.onmicrosoft.com"
+    MailNickname      = "lorgana"
+    Department        = "Commandement"
+}
+
+New-MgUser @User @Common
+```
+
+## Format Operator
+
+Les Format Operators permettent de simplifier des manipulations sur des chaînes qui pourrait néccéssiter plusieurs ligne de code:
+
+#### Arrondir une decimal à X chiffre aprés la virgule
+
++++ :icon-code: Code
+
+```powershell
+ "{0:n3}" -f 123.45678
+```
+
++++ :icon-note: Output
+
+```txt
+123,46
+```
+
++++
+
+#### Modifier l'affichage d'une suite de chiffre selon un template
+
++++ :icon-code: Code
+
+```powershell
+"{0:0# ## ## ## ##}" -f 0611223344
+```
+
++++ :icon-note: Output
+
+```txt
+06 11 22 33 44
+```
+
++++
+
+#### Créer une liste incrémentielle
+
++++ :icon-code: Code
+
+```powershell
+1..10 | ForEach-Object { 'File{0:d3}' -f $_ }
+```
+
++++ :icon-note: Output
+
+```txt
+File001
+File002
+File003
+File004
+File005
+File006
+File007
+File008
+File009
+File010
+```
+
++++
+
+#### Afficher un chiffre en pourcentage
+
++++ :icon-code: Code
+
+```powershell
+"{0:p0}" -f 0.5
+```
+
++++ :icon-note: Output
+
+```txt
+50%
+```
+
++++
+
+#### Afficher un nombre sur X digits
+
++++ :icon-code: Code
+
+```powershell
+"{0:d5}" -f 123
+```
+
++++ :icon-note: Output
+
+```txt
+00123
+```
+
++++
+
+Voir plus : [!badge target="blank" text="Formats Operators"](https://ss64.com/ps/syntax-f-operator.html)
+
+## Type Accelerators
+
+Les Type Accelerators sont des méthodes de classe .NET. Ils peuvent aussi faciliter certaines opérations et contrôles
+
+#### Vérifier la validité d'une adresse IP ou d'une URL
+
++++ :icon-code: Code
+
+```powershell
+"192.168.1.255" -as [System.Net.IPAddress] # Ne renverra rien si l'adresse IP n'est pas valide
+```
+
++++ :icon-note: Output
+
+```txt
+AddressFamily      : InterNetwork
+ScopeId            :
+IsIPv6Multicast    : False
+IsIPv6LinkLocal    : False
+IsIPv6SiteLocal    : False
+IsIPv6Teredo       : False
+IsIPv6UniqueLocal  : False
+IsIPv4MappedToIPv6 : False
+Address            : 4278298816
+IPAddressToString  : 192.168.1.255
+```
+
++++
+
+#### Créer un objet de type version
+
++++ :icon-code: Code
+
+```powershell
+[version]"1.0.2"
+```
+
++++ :icon-note: Output
+
+```txt
+Major  Minor  Build  Revision
+-----  -----  -----  --------
+1      0      2      -1
+```
+
++++
+
+## RegEx
+
+Les expression régulières peuvent faire peur en apparence mais sont trés efficaces pour extraire une information d'une chaîne de caractère:
+
++++ :icon-code: Code
+
+```powershell
+$TVShowPattern = "^(?<titre>.*?)\.S(?<saison>\d+)\.?E(?<episode>\d+)\.(?<reste>.*)$"
+"Westworld.S03E01.VOSTFR.1080p.AMZN.WEB-DL.DDP5.1.H.264-MYSTERiON" -match $TVShowPattern
+
+[PSCustomObject]@{
+    TVShow  = $Matches.titre
+    Saison  = $Matches.saison
+    Episode = $Matches.episode
+}
+
+```
+
++++ :icon-note: Output
+
+```txt
+TVShow    Saison Episode
+------    ------ -------
+Westworld 03     01
+```
+
++++
+
+[!badge target="blank" text="Outils Conception RegEx"](https://regexr.com/)

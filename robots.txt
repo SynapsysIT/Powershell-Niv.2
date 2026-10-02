@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://synapsysit.github.io/Powershell-Niv.2/sitemap.xml.gz
+Sitemap: https://synapsysit.github.io/Powershell-Niv.2/sitemap.xml
