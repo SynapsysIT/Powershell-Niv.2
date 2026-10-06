@@ -10,18 +10,18 @@ title: Documenter et publier
 
 ### L'aide intégrée
 
-Chaque fonction publique **doit** avoir son aide intégrée (voir [Intégrer une aide](../construire_son_code/comment_based_help.md)). C'est le minimum pour que `Get-Help Get-SynComputerInfo -Examples` fonctionne.
+Chaque fonction publique **doit** avoir son aide intégrée (voir [Intégrer une aide](../construire_son_code/comment_based_help.md)). C'est le minimum pour que `Get-Help Get-CustomComputerInfo -Examples` fonctionne.
 
 On peut ajouter une aide générale sur le module via un fichier texte `about_` :
 
 ```
-SynInventory\
+CustomInventory\
 └── en-US\
-    └── about_SynInventory.help.txt
+    └── about_CustomInventory.help.txt
 ```
 
 ```powershell
-Get-Help about_SynInventory
+Get-Help about_CustomInventory
 ```
 
 ### Générer une documentation Markdown avec PlatyPS
@@ -30,9 +30,9 @@ Get-Help about_SynInventory
 
 ```powershell
 Install-Module platyPS -Scope CurrentUser
-Import-Module .\SynInventory -Force
+Import-Module .\CustomInventory -Force
 
-New-MarkdownHelp -Module SynInventory -OutputFolder .\docs -WithModulePage
+New-MarkdownHelp -Module CustomInventory -OutputFolder .\docs -WithModulePage
 ```
 
 !!!
@@ -46,7 +46,7 @@ Un fichier `CHANGELOG.md` à la racine du module, aligné sur `ModuleVersion` :
 ```markdown
 ## [1.1.0] - 2026-10-01
 ### Added
-- Propriété `Uptime` dans Get-SynComputerInfo
+- Propriété `Uptime` dans Get-CustomComputerInfo
 
 ## [1.0.0] - 2026-09-29
 - Version initiale
@@ -81,28 +81,28 @@ Le plus simple des dépôts : un partage réseau contenant des fichiers `.nupkg`
 +++ PSResourceGet
 ```powershell
 # Déclarer le dépôt (une fois par poste)
-Register-PSResourceRepository -Name SynRepo -Uri '\\srv-files\PSRepo' -Trusted
+Register-PSResourceRepository -Name CustomRepo -Uri '\\srv-files\PSRepo' -Trusted
 
 # Publier
-Publish-PSResource -Path .\SynInventory -Repository SynRepo
+Publish-PSResource -Path .\CustomInventory -Repository CustomRepo
 
 # Rechercher / installer / mettre à jour
-Find-PSResource    -Name SynInventory -Repository SynRepo -Version *
-Install-PSResource -Name SynInventory -Repository SynRepo -Scope CurrentUser
-Update-PSResource  -Name SynInventory
+Find-PSResource    -Name CustomInventory -Repository CustomRepo -Version *
+Install-PSResource -Name CustomInventory -Repository CustomRepo -Scope CurrentUser
+Update-PSResource  -Name CustomInventory
 ```
 +++ PowerShellGet v2
 ```powershell
-Register-PSRepository -Name SynRepo `
+Register-PSRepository -Name CustomRepo `
     -SourceLocation '\\srv-files\PSRepo' `
     -PublishLocation '\\srv-files\PSRepo' `
     -InstallationPolicy Trusted
 
-Publish-Module -Path .\SynInventory -Repository SynRepo
+Publish-Module -Path .\CustomInventory -Repository CustomRepo
 
-Find-Module    -Name SynInventory -Repository SynRepo -AllVersions
-Install-Module -Name SynInventory -Repository SynRepo -Scope CurrentUser
-Update-Module  -Name SynInventory
+Find-Module    -Name CustomInventory -Repository CustomRepo -AllVersions
+Install-Module -Name CustomInventory -Repository CustomRepo -Scope CurrentUser
+Update-Module  -Name CustomInventory
 ```
 +++
 

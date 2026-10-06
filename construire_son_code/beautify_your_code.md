@@ -6,15 +6,15 @@ title: Mise en forme
 
 # Beautify and Simplify your code
 
-Il existe plusieurs méthodes à connaitre pour simplifier et faciliter la lisibilité de votre code.
+Il existe plusieurs méthodes à connaître pour simplifier et faciliter la lisibilité de votre code.
 
-Rappelez vous de l'existence des ces méthodes avant de vous lancer dans des bouts de code alambiqués.
+Rappelez-vous l'existence de ces méthodes avant de vous lancer dans des bouts de code alambiqués.
 
 ## Splatting
 
 Le *splatting* est une technique consistant à définir les paramètres d'une commande sous forme de `[hashtable]`.
 
-Le principal avantage de cette technique est qu'elle permet de rendre plus lisible certaines commandes qui peuvent devenir trés longue.
+Le principal avantage de cette technique est qu'elle permet de rendre plus lisibles certaines commandes qui peuvent devenir très longues.
 
 Prenons l'exemple d'une commande [!badge target="blank" text="New-MgUser"](https://learn.microsoft.com/powershell/module/microsoft.graph.users/new-mguser) standard :
 
@@ -92,14 +92,14 @@ New-MgUser @User @Common
 
 ## Format Operator
 
-Les Format Operators permettent de simplifier des manipulations sur des chaînes qui pourrait néccéssiter plusieurs ligne de code:
+Les Format Operators permettent de simplifier des manipulations sur des chaînes qui pourraient nécessiter plusieurs lignes de code :
 
-#### Arrondir une decimal à X chiffre aprés la virgule
+#### Arrondir un nombre décimal à X chiffres après la virgule
 
 +++ :icon-code: Code
 
 ```powershell
- "{0:n3}" -f 123.45678
+"{0:n2}" -f 123.45678
 ```
 
 +++ :icon-note: Output
@@ -110,7 +110,7 @@ Les Format Operators permettent de simplifier des manipulations sur des chaînes
 
 +++
 
-#### Modifier l'affichage d'une suite de chiffre selon un template
+#### Modifier l'affichage d'une suite de chiffres selon un modèle
 
 +++ :icon-code: Code
 
@@ -162,12 +162,12 @@ File010
 +++ :icon-note: Output
 
 ```txt
-50%
+50 %
 ```
 
 +++
 
-#### Afficher un nombre sur X digits
+#### Afficher un nombre sur X chiffres
 
 +++ :icon-code: Code
 
@@ -183,11 +183,11 @@ File010
 
 +++
 
-Voir plus : [!badge target="blank" text="Formats Operators"](https://ss64.com/ps/syntax-f-operator.html)
+Voir plus : [!badge target="blank" text="Format Operators"](https://ss64.com/ps/syntax-f-operator.html)
 
 ## Type Accelerators
 
-Les Type Accelerators sont des méthodes de classe .NET. Ils peuvent aussi faciliter certaines opérations et contrôles
+Les Type Accelerators sont des raccourcis vers des classes .NET. Ils peuvent aussi faciliter certaines opérations et contrôles.
 
 #### Vérifier la validité d'une adresse IP ou d'une URL
 
@@ -195,6 +195,10 @@ Les Type Accelerators sont des méthodes de classe .NET. Ils peuvent aussi facil
 
 ```powershell
 "192.168.1.255" -as [System.Net.IPAddress] # Ne renverra rien si l'adresse IP n'est pas valide
+```
+
+```powershell
+"https://learn.microsoft.com" -as [uri]
 ```
 
 +++ :icon-note: Output
@@ -234,7 +238,7 @@ Major  Minor  Build  Revision
 
 ## RegEx
 
-Les expression régulières peuvent faire peur en apparence mais sont trés efficaces pour extraire une information d'une chaîne de caractère:
+Les expressions régulières peuvent faire peur en apparence, mais sont très efficaces pour extraire une information d'une chaîne de caractères :
 
 +++ :icon-code: Code
 
@@ -260,4 +264,4 @@ Westworld 03     01
 
 +++
 
-[!badge target="blank" text="Outils Conception RegEx"](https://regexr.com/)
+[!badge target="blank" text="Outil de conception RegEx"](https://regexr.com/)

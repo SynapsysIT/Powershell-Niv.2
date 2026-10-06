@@ -1,16 +1,16 @@
 ---
 icon: sign-out
 order: 9
-title: Ouputs
+title: Outputs
 ---
 
 # Renvoyer un objet en sortie
 
-Dans la plupart des cas, votre script aura à renvoyer des données. Il convient alors de le faire dans la philophie de Powershell et de les renvoyer sous forme d'objets.
+Dans la plupart des cas, votre script aura à renvoyer des données. Il convient alors de le faire dans la philosophie de PowerShell et de les renvoyer sous forme d'objets.
 
-Nous utiliserons pour cela un `[pscustomobject]`
+Nous utiliserons pour cela un `[pscustomobject]`.
 
-Prenon l'exemple d'un code qui récupère des informations sur des machines à l'aide des commandes **CimInstance** (Remplacant de WmiObject) :
+Prenons l'exemple d'un code qui récupère des informations sur des machines à l'aide des commandes **CimInstance** (remplaçant de WmiObject) :
 
 ```powershell
 $OS = Get-CimInstance -ClassName Win32_OperatingSystem
@@ -18,14 +18,14 @@ $CPU = Get-CimInstance win32_processor
 $Volume = Get-Volume  -DriveLetter C
 ```
 
-Nous aurons plusieurs variables, alimentés par différentes commandes dont nous souhaitons consolider la sortie en un objet :
+Nous aurons plusieurs variables, alimentées par différentes commandes dont nous souhaitons consolider la sortie en un objet :
 
 +++ :icon-code: Code
 ```powershell
 [PSCustomObject]@{
     ComputerName = $OS.CSName
     OSVersion = $OS.Caption,$OS.Version -join " "
-    CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024,2)
+    CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1000,2)
     FreeSpace = ($Volume.SizeRemaining / $Volume.Size).ToString("P")
 }
 ```
@@ -35,12 +35,12 @@ Nous aurons plusieurs variables, alimentés par différentes commandes dont nous
 ```powershell
 ComputerName OSVersion                                     CPUClockSpeed FreeSpace
 ------------ ---------                                     ------------- ---------
-WKS01         Microsoft Windows 11 Professionnel 10.0.22621          3,61 2,85 %
+WKS01        Microsoft Windows 11 Professionnel 10.0.22621           3,7 2,85 %
 ```
 
 +++
 
-Dans le cas où notre code est éxécuté sur plusieurs cibles, nous créerons notre `[pscustomobject]` dans notre boucle ou dans le bloc `process` d'une fonction avancée pour consolider la sortie sous forme de collection.
+Dans le cas où notre code est exécuté sur plusieurs cibles, nous créerons notre `[pscustomobject]` dans notre boucle ou dans le bloc `process` d'une fonction avancée pour consolider la sortie sous forme de collection.
 
 ```powershell
 foreach ($Computer in $Computer_List)
@@ -53,16 +53,16 @@ foreach ($Computer in $Computer_List)
         ComputerName  = $OS.CSName
         OSVersion     = $OS.Caption, $OS.Version -join ' '
         CPUName       = $CPU.Name
-        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024, 2)
+        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1000, 2)
         FreeSpace     = ($Volume.SizeRemaining / $Volume.Size).ToString('P')
     }
 }
 ```
 
-Si la collection obtenue dans la boucle doit servir dans un traitement plus loin dans le code, la boucle elle même pourra être renvoyée dans une variable.
+Si la collection obtenue dans la boucle doit servir dans un traitement plus loin dans le code, la boucle elle-même pourra être renvoyée dans une variable.
 
 !!!warning
-On voit souvent dans ce cas, la création d'une liste vide et son incrémentation dans la boucle. **Cette méthode est à proscrire** pour des raisons de performance et de lisibilité.
+On voit souvent, dans ce cas, la création d'une liste vide et son incrémentation dans la boucle. **Cette méthode est à proscrire** pour des raisons de performance et de lisibilité.
 !!!
 
 
@@ -79,16 +79,16 @@ $Result = foreach ($Computer in $Computer_List)
         ComputerName  = $OS.CSName
         OSVersion     = $OS.Caption, $OS.Version -join ' '
         CPUName       = $CPU.Name
-        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024, 2)
+        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1000, 2)
         FreeSpace     = ($Volume.SizeRemaining / $Volume.Size).ToString('P')
     }
 }
 
 
-$Result | Convertto-Json | Out-File report.json
+$Result | ConvertTo-Json | Out-File report.json
 ```
 
-+++ :icon-x-circle-fill: A Proscrire
++++ :icon-x-circle-fill: À proscrire
 ```powershell
 $Result = @()
 
@@ -102,7 +102,7 @@ foreach ($Computer in $Computer_List)
         ComputerName  = $OS.CSName
         OSVersion     = $OS.Caption, $OS.Version -join ' '
         CPUName       = $CPU.Name
-        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024, 2)
+        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1000, 2)
         FreeSpace     = ($Volume.SizeRemaining / $Volume.Size).ToString('P')
     }
 }
@@ -114,11 +114,11 @@ foreach ($Computer in $Computer_List)
 Il existe une autre syntaxe pour la création du `[pscustomobject]` :
 
 ```powershell
-$Properties = @{
+$Properties = [ordered]@{
         ComputerName  = $OS.CSName
         OSVersion     = $OS.Caption, $OS.Version -join ' '
         CPUName       = $CPU.Name
-        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1024, 2)
+        CPUClockSpeed = [math]::Round($CPU.MaxClockSpeed / 1000, 2)
         FreeSpace     = ($Volume.SizeRemaining / $Volume.Size).ToString('P')
     }
 
