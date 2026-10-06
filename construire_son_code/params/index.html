@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/Powershell-Niv.2">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844249212527">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844598481838">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -13,7 +13,7 @@
     <!-- Primary Meta Tags -->
     <title>Param&#232;tres</title>
     <meta name="title" content="Paramètres">
-    <meta name="description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.">
+    <meta name="description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params/">
@@ -23,7 +23,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params/">
     <meta property="og:title" content="Paramètres">
-    <meta property="og:description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.">
+    <meta property="og:description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.">
     <meta property="og:site_name" content="Formation Powershell">
     <meta property="og:locale" content="en_US">
 
@@ -31,7 +31,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params/">
     <meta name="twitter:title" content="Paramètres">
-    <meta name="twitter:description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.">
+    <meta name="twitter:description" content="Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.">
 
     <!-- Alternate Markdown -->
     <link rel="alternate" type="text/markdown" href="https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params.md">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../assets/logo_rhino_red.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.844249212527" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.844598481838" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844249212527" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844249212527" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.844249212527" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.844598481838" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -192,10 +192,10 @@
 </doc-codeblock></div>
 <h2 id="options-de-paramètres">Options de paramètres</h2>
 <h3 id="mandatory">Mandatory</h3>
-<p>Cette option permet de rendre un paramètre <strong>obligatoire</strong>. Si ce paramètre est oublié à l&#x27;appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.</p>
+<p>Cette option permet de rendre un paramètre <strong>obligatoire</strong>. Si ce paramètre est oublié à l&#x27;appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.</p>
 <h3 id="position">Position</h3>
-<p>Si une position est renseignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres sera attribuée en fonction de l&#x27;ordre dans lesquelles ils ont été renseignés.</p>
-<p>Par exemple, la commande <code translate="no" v-pre>Get-ChildItem</code> à un paramètre <code translate="no" v-pre>Path</code> qui une position <strong>0</strong>. Cette commande s&#x27;exécutera donc de la même manière dans tous les cas suivant:</p>
+<p>Si une position est renseignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres sera attribuée en fonction de l&#x27;ordre dans lequel ils ont été renseignés.</p>
+<p>Par exemple, la commande <code translate="no" v-pre>Get-ChildItem</code> a un paramètre <code translate="no" v-pre>Path</code> qui a la position <strong>0</strong>. Cette commande s&#x27;exécutera donc de la même manière dans tous les cas suivants :</p>
 <div id="position-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-powershell"><code v-pre class="language-powershell">Get-ChildItem -Path &quot;C:\Temp&quot;
 Get-ChildItem &quot;C:\Temp&quot;
@@ -203,12 +203,12 @@ Get-ChildItem -Exclude &quot;*.log&quot; &quot;C:\Temp&quot;</code></pre>
 </doc-codeblock></div>
 <p>Dans le dernier exemple, le paramètre <code translate="no" v-pre>Exclude</code> sera ignoré dans la position, car nommé.</p>
 <h3 id="parameter-set-name">Parameter Set Name</h3>
-<p>Les <code translate="no" v-pre>ParameterSetName</code> permettent de changer le comportement du code en fonction d&#x27;un groupe de paramètre.</p>
-<p>Les règles suivantes s&#x27;appliquent au <code translate="no" v-pre>ParameterSetName</code>:</p>
+<p>Les <code translate="no" v-pre>ParameterSetName</code> permettent de changer le comportement du code en fonction d&#x27;un groupe de paramètres.</p>
+<p>Les règles suivantes s&#x27;appliquent au <code translate="no" v-pre>ParameterSetName</code> :</p>
 <ul>
-<li>Seul un Set de paramètre peut être utilisé lors de l&#x27;appel de la fonction ou du script.</li>
+<li>Seul un Set de paramètres peut être utilisé lors de l&#x27;appel de la fonction ou du script.</li>
 <li>Si aucun Set n&#x27;est précisé, le paramètre appartient à tous les Sets.</li>
-<li>Un paramètre peut appartenir à plusieurs Set.</li>
+<li>Un paramètre peut appartenir à plusieurs Sets.</li>
 </ul>
 <div id="parameter-set-name-exemple-dutilisation" class="codeblock-wrapper"><doc-codeblock>
 <div class="codeblock-title">Exemple d&#x27;utilisation</div>
@@ -247,7 +247,7 @@ Get-ChildItem -Exclude &quot;*.log&quot; &quot;C:\Temp&quot;</code></pre>
     <span>about_Parameter_Sets</span>
 </a></p>
 <h3 id="valuefrompipeline">ValueFromPipeline</h3>
-<p>Ce boolean permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-badge-danger-text bg-badge-danger border border-badge-danger-border h-6 px-2 text-xs rounded-md">
+<p>Ce booléen permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-badge-danger-text bg-badge-danger border border-badge-danger-border h-6 px-2 text-xs rounded-md">
     <span>|</span>
 </span>.</p>
 <doc-tabs>
@@ -293,7 +293,7 @@ Get-ChildItem -Exclude &quot;*.log&quot; &quot;C:\Temp&quot;</code></pre>
 255.255.255.0
 
 &gt; &quot;255.255.255.0&quot; | Convert-IPMask
-34</code></pre>
+24</code></pre>
 </doc-codeblock></div>
 </doc-tab>
 </doc-tabs>
@@ -336,9 +336,9 @@ VERBOSE: Process SERVER03</code></pre>
 </doc-tab>
 </doc-tabs>
 <h3 id="valuefrompipelinebypropertyname">ValueFromPipelineByPropertyName</h3>
-<p><code translate="no" v-pre>ValueFromPipelineByPropertyName</code> permet de lier un paramètre à une propriété de l&#x27;objet recu dans le pipeline <strong>par leur nom</strong>.</p>
-<p>Les deux doivent avoir le même type. Ici dans l&#x27;exemple, la propriété <code translate="no" v-pre>Name</code> d&#x27;un objet <code translate="no" v-pre>service</code> est un <code translate="no" v-pre>[string]</code> et peut donc être récupérer par le paramètre <code translate="no" v-pre>$Name</code> de notre commande.</p>
-<p>On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs nom de propriétés possible.</p>
+<p><code translate="no" v-pre>ValueFromPipelineByPropertyName</code> permet de lier un paramètre à une propriété de l&#x27;objet reçu dans le pipeline <strong>par leur nom</strong>.</p>
+<p>Les deux doivent avoir le même type. Ici dans l&#x27;exemple, la propriété <code translate="no" v-pre>Name</code> d&#x27;un objet <code translate="no" v-pre>service</code> est un <code translate="no" v-pre>[string]</code> et peut donc être récupérée par le paramètre <code translate="no" v-pre>$Name</code> de notre commande.</p>
+<p>On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs noms de propriétés possibles.</p>
 <doc-tabs>
 <doc-tab v-cloak id="code-2">
 <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M15.22 4.97a.75.75 0 0 1 1.06 0l6.5 6.5a.75.75 0 0 1 0 1.06l-6.5 6.5a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L21.19 12l-5.97-5.97a.75.75 0 0 1 0-1.06Zm-6.44 0a.75.75 0 0 1 0 1.06L2.81 12l5.97 5.97a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-6.5-6.5a.75.75 0 0 1 0-1.06l6.5-6.5a.75.75 0 0 1 1.06 0Z"/></g></g></svg> Code</template>
@@ -353,7 +353,6 @@ VERBOSE: Process SERVER03</code></pre>
 
     begin {
         Write-Host &quot;Services Status&quot; -ForegroundColor Yellow
-        Write-Host $input
     }
 
     process {
@@ -393,7 +392,7 @@ Services Status
 </doc-tab>
 </doc-tabs>
 <h3 id="valuefromremainingarguments">ValueFromRemainingArguments</h3>
-<p><code translate="no" v-pre>ValueFromRemainingArguments</code> permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande.</p>
+<p><code translate="no" v-pre>ValueFromRemainingArguments</code> permet de spécifier que ce paramètre acceptera tous les arguments restants qui seront passés à la ligne de commande.</p>
 <doc-tabs>
 <doc-tab v-cloak id="code-3">
 <template #title><svg xmlns="http://www.w3.org/2000/svg" class="docs-icon" viewBox="0 0 24 24" role="presentation"><g fill="currentColor"><g><path d="M15.22 4.97a.75.75 0 0 1 1.06 0l6.5 6.5a.75.75 0 0 1 0 1.06l-6.5 6.5a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L21.19 12l-5.97-5.97a.75.75 0 0 1 0-1.06Zm-6.44 0a.75.75 0 0 1 0 1.06L2.81 12l5.97 5.97a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215l-6.5-6.5a.75.75 0 0 1 0-1.06l6.5-6.5a.75.75 0 0 1 1.06 0Z"/></g></g></svg> Code</template>
@@ -430,7 +429,7 @@ VERBOSE: Remaining Arguments 2 : titi</code></pre>
 </doc-tabs>
 <h2 id="attributs-de-paramètres">Attributs de paramètres</h2>
 <h3 id="alias">Alias</h3>
-<p>L&#x27;attribut <code translate="no" v-pre>alias</code> permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour le faire correspondre à plusieurs nom de propriétés possibles lorsqu&#x27;il est utilisé avec <code translate="no" v-pre>ValueFromPipelineByPropertyName</code>.</p>
+<p>L&#x27;attribut <code translate="no" v-pre>alias</code> permet de spécifier un ou plusieurs noms alternatifs pour un paramètre. Il peut être utilisé pour fournir un nom court au paramètre ou pour le faire correspondre à plusieurs noms de propriétés possibles lorsqu&#x27;il est utilisé avec <code translate="no" v-pre>ValueFromPipelineByPropertyName</code>.</p>
 <div id="alias-code-1" class="codeblock-wrapper"><doc-codeblock line-numbers>
 <pre translate="no" class="language-powershell" data-line="2"><code v-pre class="language-powershell">    param (
         [Alias(&quot;Hostname&quot;,&quot;Name&quot;)]
@@ -443,15 +442,15 @@ VERBOSE: Remaining Arguments 2 : titi</code></pre>
 <p>L’attribut <code translate="no" v-pre>ValidateNotNullOrEmpty</code> spécifie que la valeur affectée ne peut pas être l’une des valeurs suivantes :</p>
 <ul>
 <li><code translate="no" v-pre>$null</code></li>
-<li>une chaine vide <code translate="no" v-pre>&quot;&quot;</code></li>
+<li>une chaîne vide <code translate="no" v-pre>&quot;&quot;</code></li>
 <li>un tableau ou une liste vide <code translate="no" v-pre>@()</code></li>
 </ul>
 <h3 id="validateset">ValidateSet</h3>
-<p>L&#x27;attribut <code translate="no" v-pre>ValidateSet</code> spécifie un ensemble de valeurs valide pour ce paramètre et permet l&#x27;auto-complétion lors de la saisie de la valeur.</p>
+<p>L&#x27;attribut <code translate="no" v-pre>ValidateSet</code> spécifie un ensemble de valeurs valides pour ce paramètre et permet l&#x27;auto-complétion lors de la saisie de la valeur.</p>
 <div id="validateset-code-1" class="codeblock-wrapper"><doc-codeblock line-numbers>
 <pre translate="no" class="language-powershell" data-line="3"><code v-pre class="language-powershell">    param (
         [Parameter()]
-        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2019', 'WindowsServer2022')]
         [string]$OperatingSystem
     )</code></pre>
 </doc-codeblock></div>
@@ -472,14 +471,14 @@ VERBOSE: Remaining Arguments 2 : titi</code></pre>
 <pre translate="no" class="language-powershell"><code v-pre class="language-powershell">function Test-Function {
     param (
         [Parameter()]
-        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2019', 'WindowsServer2022')]
         [string]$OperatingSystem
     )
 
     $OperatingSystem = &quot;Linux&quot;
 }</code></pre>
 </doc-codeblock></div>
-<p>Cette exemple renverra l&#x27;erreur suivante:</p>
+<p>Cet exemple renverra l&#x27;erreur suivante :</p>
 <div class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-none"><code v-pre class="language-none">The variable cannot be validated because the value Linux is not a valid value for the OperatingSystem variable.</code></pre>
 </doc-codeblock></div>
@@ -487,17 +486,17 @@ VERBOSE: Remaining Arguments 2 : titi</code></pre>
     </div>
 </div>
 <h3 id="validatecount">ValidateCount</h3>
-<p>L&#x27;attribut <code translate="no" v-pre>ValidateCount</code> spécifie le nombre de valeur minimal et maximal autorisé pour un paramètre</p>
+<p>L&#x27;attribut <code translate="no" v-pre>ValidateCount</code> spécifie le nombre minimal et maximal de valeurs autorisées pour un paramètre</p>
 <div id="validatecount-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-powershell"><code v-pre class="language-powershell">[ValidateCount(Int_min, Int_max)]</code></pre>
 </doc-codeblock></div>
 <h3 id="validatelength">ValidateLength</h3>
-<p>Dans le cas d&#x27;un paramètre de type <code translate="no" v-pre>[string]</code>. L&#x27;attribut <code translate="no" v-pre>ValidateLength</code> spécifie le nombre de caractère minimal et maximal pour la valeur du paramètre.</p>
+<p>Dans le cas d&#x27;un paramètre de type <code translate="no" v-pre>[string]</code>. L&#x27;attribut <code translate="no" v-pre>ValidateLength</code> spécifie le nombre minimal et maximal de caractères pour la valeur du paramètre.</p>
 <div id="validatelength-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-powershell"><code v-pre class="language-powershell">[ValidateLength(Int_min, Int_max)]</code></pre>
 </doc-codeblock></div>
 <h3 id="validaterange">ValidateRange</h3>
-<p>Dans le cas d&#x27;un paramètre de type <code translate="no" v-pre>[int]</code> ou <code translate="no" v-pre>[double]</code>. L&#x27;attribut <code translate="no" v-pre>ValidateRange</code> spécifie la valeur minimale et maximal que ce paramètre peut recevoir comme valeur.</p>
+<p>Dans le cas d&#x27;un paramètre de type <code translate="no" v-pre>[int]</code> ou <code translate="no" v-pre>[double]</code>. L&#x27;attribut <code translate="no" v-pre>ValidateRange</code> spécifie la valeur minimale et maximale que ce paramètre peut recevoir comme valeur.</p>
 <div id="validaterange-code-1" class="codeblock-wrapper"><doc-codeblock>
 <pre translate="no" class="language-powershell"><code v-pre class="language-powershell">[ValidateRange(Int_min, Int_max)]</code></pre>
 </doc-codeblock></div>
@@ -514,7 +513,7 @@ VERBOSE: Remaining Arguments 2 : titi</code></pre>
 }</code></pre>
 </doc-codeblock></div>
 <h3 id="validatescript">ValidateScript</h3>
-<p>L&#x27;attribut <code translate="no" v-pre>ValidateScript</code> permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyer une variable de type <code translate="no" v-pre>[bool]</code> (<code translate="no" v-pre>$true</code> | <code translate="no" v-pre>$false</code> ).</p>
+<p>L&#x27;attribut <code translate="no" v-pre>ValidateScript</code> permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyer une variable de type <code translate="no" v-pre>[bool]</code> (<code translate="no" v-pre>$true</code> | <code translate="no" v-pre>$false</code>).</p>
 <p>Dans ce bloc de script, <span class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-badge-danger-text bg-badge-danger border border-badge-danger-border h-6 px-2 text-xs rounded-md">
     <span>$_</span>
 </span> fera référence à la valeur du paramètre spécifié.</p>

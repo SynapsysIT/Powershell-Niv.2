@@ -29,13 +29,13 @@ param (
 
 ### Mandatory
 
-Cette option permet de rendre un paramètre **obligatoire**. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaitra pour founir une valeur.
+Cette option permet de rendre un paramètre **obligatoire**. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.
 
 ### Position
 
-Si une position est renseignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres sera attribuée en fonction de l'ordre dans lesquelles ils ont été renseignés.
+Si une position est renseignée, le script ou la fonction pourront être appelés sans préciser le nom du paramètre. La valeur des paramètres sera attribuée en fonction de l'ordre dans lequel ils ont été renseignés.
 
-Par exemple, la commande `Get-ChildItem` à un paramètre `Path` qui une position **0**. Cette commande s'exécutera donc de la même manière dans tous les cas suivant:
+Par exemple, la commande `Get-ChildItem` a un paramètre `Path` qui a la position **0**. Cette commande s'exécutera donc de la même manière dans tous les cas suivants :
 
 ```powershell
 Get-ChildItem -Path "C:\Temp"
@@ -47,13 +47,13 @@ Dans le dernier exemple, le paramètre `Exclude` sera ignoré dans la position, 
 
 ### Parameter Set Name
 
-Les `ParameterSetName` permettent de changer le comportement du code en fonction d'un groupe de paramètre.
+Les `ParameterSetName` permettent de changer le comportement du code en fonction d'un groupe de paramètres.
 
-Les règles suivantes s'appliquent au `ParameterSetName`:
+Les règles suivantes s'appliquent au `ParameterSetName` :
 
-- Seul un Set de paramètre peut être utilisé lors de l'appel de la fonction ou du script.
+- Seul un Set de paramètres peut être utilisé lors de l'appel de la fonction ou du script.
 - Si aucun Set n'est précisé, le paramètre appartient à tous les Sets.
-- Un paramètre peut appartenir à plusieurs Set.
+- Un paramètre peut appartenir à plusieurs Sets.
   
 ```powershell Exemple d'utilisation
 function Convert-IPMask
@@ -92,7 +92,7 @@ function Convert-IPMask
 
 ### ValueFromPipeline
 
-Ce boolean permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline [!badge variant="danger" text="|"].
+Ce booléen permet de définir que ce paramètre pourra prendre sa valeur depuis le pipeline [!badge variant="danger" text="|"].
 
 +++ :icon-code: Code
 
@@ -136,7 +136,7 @@ function Convert-IPMask
 255.255.255.0
 
 > "255.255.255.0" | Convert-IPMask
-34
+24
 ```
 
 +++
@@ -182,11 +182,11 @@ VERBOSE: Process SERVER03
 
 ### ValueFromPipelineByPropertyName
 
-`ValueFromPipelineByPropertyName` permet de lier un paramètre à une propriété de l'objet recu dans le pipeline **par leur nom**.
+`ValueFromPipelineByPropertyName` permet de lier un paramètre à une propriété de l'objet reçu dans le pipeline **par leur nom**.
 
-Les deux doivent avoir le même type. Ici dans l'exemple, la propriété `Name` d'un objet `service` est un `[string]` et peut donc être récupérer par le paramètre `$Name` de notre commande.
+Les deux doivent avoir le même type. Ici dans l'exemple, la propriété `Name` d'un objet `service` est un `[string]` et peut donc être récupérée par le paramètre `$Name` de notre commande.
 
-On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs nom de propriétés possible.
+On peut utiliser les alias de paramètres pour faire correspondre notre paramètre à plusieurs noms de propriétés possibles.
 
 +++ :icon-code: Code
 
@@ -201,7 +201,6 @@ function Test-Pipeline
 
     begin {
         Write-Host "Services Status" -ForegroundColor Yellow
-        Write-Host $input
     }
 
     process {
@@ -243,7 +242,7 @@ Services Status
 
 ### ValueFromRemainingArguments
 
-`ValueFromRemainingArguments` permet de spécifier que ce paramètre acceptera tous les arguments restant qui seront passés à la ligne de commande.
+`ValueFromRemainingArguments` permet de spécifier que ce paramètre acceptera tous les arguments restants qui seront passés à la ligne de commande.
 
 +++ :icon-code: Code
 
@@ -283,7 +282,7 @@ VERBOSE: Remaining Arguments 2 : titi
 
 ### Alias
 
-L'attribut `alias` permet de spécifier un ou plusieurs nom alternatif pour un paramètres. Il peut être utilisé pour founir un nom court au paramètre ou pour le faire correspondre à plusieurs nom de propriétés possibles lorsqu'il est utilisé avec `ValueFromPipelineByPropertyName`.
+L'attribut `alias` permet de spécifier un ou plusieurs noms alternatifs pour un paramètre. Il peut être utilisé pour fournir un nom court au paramètre ou pour le faire correspondre à plusieurs noms de propriétés possibles lorsqu'il est utilisé avec `ValueFromPipelineByPropertyName`.
 
 ```powershell #2
     param (
@@ -301,17 +300,17 @@ L'attribut `ValidateNotNull` spécifie que la valeur du paramètre ne peut pas �
 L’attribut `ValidateNotNullOrEmpty` spécifie que la valeur affectée ne peut pas être l’une des valeurs suivantes :
 
 - `$null`
-- une chaine vide `""`
+- une chaîne vide `""`
 - un tableau ou une liste vide `@()`
 
 ### ValidateSet
 
-L'attribut `ValidateSet` spécifie un ensemble de valeurs valide pour ce paramètre et permet l'auto-complétion lors de la saisie de la valeur.
+L'attribut `ValidateSet` spécifie un ensemble de valeurs valides pour ce paramètre et permet l'auto-complétion lors de la saisie de la valeur.
 
 ```powershell #3
     param (
         [Parameter()]
-        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2019', 'WindowsServer2022')]
         [string]$OperatingSystem
     )
 ```
@@ -323,7 +322,7 @@ Cette validation se fera à chaque assignation de cette variable :
 function Test-Function {
     param (
         [Parameter()]
-        [ValidateSet('WindowsServer2016', 'WindowsServer2016','WindowsServer2022')]
+        [ValidateSet('WindowsServer2016', 'WindowsServer2019', 'WindowsServer2022')]
         [string]$OperatingSystem
     )
 
@@ -331,7 +330,7 @@ function Test-Function {
 }
 ```
 
-Cette exemple renverra l'erreur suivante:
+Cet exemple renverra l'erreur suivante :
 
 ```txt
 The variable cannot be validated because the value Linux is not a valid value for the OperatingSystem variable.
@@ -341,7 +340,7 @@ The variable cannot be validated because the value Linux is not a valid value fo
 
 ### ValidateCount
 
-L'attribut `ValidateCount` spécifie le nombre de valeur minimal et maximal autorisé pour un paramètre
+L'attribut `ValidateCount` spécifie le nombre minimal et maximal de valeurs autorisées pour un paramètre
 
 ```powershell
 [ValidateCount(Int_min, Int_max)]
@@ -349,7 +348,7 @@ L'attribut `ValidateCount` spécifie le nombre de valeur minimal et maximal auto
 
 ### ValidateLength
 
-Dans le cas d'un paramètre de type `[string]`. L'attribut `ValidateLength` spécifie le nombre de caractère minimal et maximal pour la valeur du paramètre.
+Dans le cas d'un paramètre de type `[string]`. L'attribut `ValidateLength` spécifie le nombre minimal et maximal de caractères pour la valeur du paramètre.
 
 ```powershell
 [ValidateLength(Int_min, Int_max)]
@@ -357,7 +356,7 @@ Dans le cas d'un paramètre de type `[string]`. L'attribut `ValidateLength` spé
 
 ### ValidateRange
 
-Dans le cas d'un paramètre de type `[int]` ou `[double]`. L'attribut `ValidateRange` spécifie la valeur minimale et maximal que ce paramètre peut recevoir comme valeur.
+Dans le cas d'un paramètre de type `[int]` ou `[double]`. L'attribut `ValidateRange` spécifie la valeur minimale et maximale que ce paramètre peut recevoir comme valeur.
 
 ```powershell
 [ValidateRange(Int_min, Int_max)]
@@ -381,7 +380,7 @@ function Test-Function {
 
 ### ValidateScript
 
-L'attribut `ValidateScript` permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyer une variable de type `[bool]` (`$true` | `$false` ).
+L'attribut `ValidateScript` permettra de fournir un bloc de code qui sera exécuté pour valider la valeur du paramètre. Ce bout de code devra renvoyer une variable de type `[bool]` (`$true` | `$false`).
 
 Dans ce bloc de script, [!badge variant="danger" text="$_"] fera référence à la valeur du paramètre spécifié.
 

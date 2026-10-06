@@ -1,6 +1,6 @@
 # Créer ses modules
 
-Une fonction bien construite n'a de valeur que si elle est **réutilisable** et **distribuable**. Copier-coller une fonction d'un script à l'autre, ou la charger avec un dot-sourcing `. .\MesFonctions.ps1`, pose vite problème :
+Une fonction bien construite n'a de valeur que si elle est **réutilisable** et **distribuable**. Copier-coller une fonction d'un script à l'autre, ou la charger avec un dot-sourcing `. .\New-CustomEntraUser.ps1`, pose vite problème :
 
 - plusieurs versions de la même fonction circulent ;
 - aucune gestion des dépendances ;
@@ -8,6 +8,10 @@ Une fonction bien construite n'a de valeur que si elle est **réutilisable** et 
 - rien ne dit quelle version tourne sur quel serveur.
 
 Le **module** répond à ces problèmes : c'est l'unité de packaging, de versioning et de distribution de PowerShell.
+
+!!!
+Fil rouge de cette partie : regrouper les fonctions `New-CustomEntraUser` et `Get-CustomEntraUserReport` des ateliers précédents dans un module `CustomEntra`. Vous le construirez dans l'atelier [Module CustomEntra](module_entra.md).
+!!!
 
 ## Les types de modules
 
@@ -44,10 +48,10 @@ Un module placé dans l'un de ces chemins, dans un dossier **portant le même no
 
 ```
 Modules\
-└── SynInventory\          <-- nom du dossier = nom du module
-    └── 1.0.0\             <-- (optionnel) un sous-dossier par version
-        ├── SynInventory.psd1
-        └── SynInventory.psm1
+└── CustomEntra\          <-- nom du dossier = nom du module
+    └── 1.0.0\            <-- (optionnel) un sous-dossier par version
+        ├── CustomEntra.psd1
+        └── CustomEntra.psm1
 ```
 
 ## Commandes essentielles
@@ -55,9 +59,9 @@ Modules\
 ```powershell
 Get-Module                                  # Modules chargés dans la session
 Get-Module -ListAvailable                   # Modules disponibles sur la machine
-Import-Module .\SynInventory -Force -Verbose # (Re)charger un module en développement
-Remove-Module SynInventory                  # Décharger un module
-Get-Command -Module SynInventory            # Commandes exportées par un module
+Import-Module .\CustomEntra -Force -Verbose  # (Re)charger un module en développement
+Remove-Module CustomEntra                    # Décharger un module
+Get-Command -Module CustomEntra              # Commandes exportées par un module
 ```
 
 !!!warning

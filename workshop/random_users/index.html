@@ -5,45 +5,46 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/Powershell-Niv.2">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844249212527">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844598481838">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
 
     <!-- Primary Meta Tags -->
-    <title>Computer Info</title>
-    <meta name="title" content="Computer Info">
-    <meta name="description" content="Coder une fonction qui pourra requêter une machine distante et renvoyer:">
+    <title>API Random User</title>
+    <meta name="title" content="API Random User">
+    <meta name="description" content="Objectif : récupérer des identités fictives depuis une API REST publique et les transformer en objets PowerShell prêts à être envoyés dans le pipeline.">
 
     <!-- Canonical -->
-    <link rel="canonical" href="https://synapsysit.github.io/Powershell-Niv.2/workshop/computer_info/">
+    <link rel="canonical" href="https://synapsysit.github.io/Powershell-Niv.2/workshop/random_users/">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://synapsysit.github.io/Powershell-Niv.2/sitemap.xml">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://synapsysit.github.io/Powershell-Niv.2/workshop/computer_info/">
-    <meta property="og:title" content="Computer Info">
-    <meta property="og:description" content="Coder une fonction qui pourra requêter une machine distante et renvoyer:">
+    <meta property="og:url" content="https://synapsysit.github.io/Powershell-Niv.2/workshop/random_users/">
+    <meta property="og:title" content="API Random User">
+    <meta property="og:description" content="Objectif : récupérer des identités fictives depuis une API REST publique et les transformer en objets PowerShell prêts à être envoyés dans le pipeline.">
     <meta property="og:site_name" content="Formation Powershell">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://synapsysit.github.io/Powershell-Niv.2/workshop/computer_info/">
-    <meta name="twitter:title" content="Computer Info">
-    <meta name="twitter:description" content="Coder une fonction qui pourra requêter une machine distante et renvoyer:">
+    <meta name="twitter:url" content="https://synapsysit.github.io/Powershell-Niv.2/workshop/random_users/">
+    <meta name="twitter:title" content="API Random User">
+    <meta name="twitter:description" content="Objectif : récupérer des identités fictives depuis une API REST publique et les transformer en objets PowerShell prêts à être envoyés dans le pipeline.">
 
     <!-- Alternate Markdown -->
-    <link rel="alternate" type="text/markdown" href="https://synapsysit.github.io/Powershell-Niv.2/workshop/computer_info.md">
+    <link rel="alternate" type="text/markdown" href="https://synapsysit.github.io/Powershell-Niv.2/workshop/random_users.md">
 
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../assets/logo_rhino_red.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.844249212527" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.844598481838" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844249212527" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844249212527" data-turbo-eval="false" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.844598481838" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -163,19 +164,141 @@
                 <doc-page-actions></doc-page-actions>
 
                 <!-- Page content  -->
-<h1 id="computer-info">Computer Info</h1>
+<h1 id="atelier--consommer-une-api-rest">Atelier : consommer une API REST</h1>
+<p><strong>Objectif</strong> : récupérer des identités fictives depuis une API REST publique et les transformer en objets PowerShell prêts à être envoyés dans le pipeline.</p>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-primary"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-primary" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+<p>Les objets produits ici serviront d&#x27;entrée à l&#x27;atelier suivant, <a href="../new_entra_users/">Create Users</a>, qui créera ces utilisateurs dans Entra ID.</p>
+        </div>
+    </div>
+</div>
+<p>L&#x27;API utilisée : <a href="https://randomuser.me/api/?results=10&amp;nat=FR">https://randomuser.me/api/?results=10&amp;nat=FR</a></p>
+<h2 id="consignes">Consignes</h2>
+<p>Coder une fonction <code translate="no" v-pre>Get-RandomUser</code> qui :</p>
 <ol>
-<li>
-<p>Coder une fonction qui pourra requêter une machine distante et renvoyer:</p>
-<ul>
-<li>Son nom</li>
-<li>Son OS + Numéro de version complet</li>
-<li>Nombre de coeur CPU</li>
-<li>Quantité de RAM</li>
-<li>L&#x27;espace restant sur le disque C</li>
-</ul>
-</li>
+<li>Interroge l&#x27;API pour récupérer un nombre d&#x27;utilisateurs français passé en paramètre (<code translate="no" v-pre>-Count</code>, 10 par défaut).</li>
+<li>Renvoie <strong>un <code translate="no" v-pre>[PSCustomObject]</code> par utilisateur</strong>, dont les noms de propriétés correspondent <strong>exactement</strong> à ceux du tableau ci-dessous (ce sont les noms des paramètres de <code translate="no" v-pre>New-MgUser</code>).</li>
+<li>Construit l&#x27;UPN à partir du prénom, du nom et d&#x27;un domaine passé en paramètre (<code translate="no" v-pre>-Domain</code>).</li>
 </ol>
+<div class="flex mb-6">
+    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-primary"></div>
+    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
+        <div class="flex items-center ml-4 h-7">
+            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-primary" width="22" height="22" viewBox="0 0 24 24" role="presentation">
+                <g fill="currentColor"><g>
+                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
+                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                </g></g>
+            </svg>
+        </div>
+        <div class="pr-5 ml-3 w-full">
+            <h5>Coup de pouce</h5>
+<p>L&#x27;appel à l&#x27;API se fait avec <a href="https://learn.microsoft.com/powershell/module/microsoft.powershell.utility/invoke-restmethod" target="_blank" class="no-link inline-flex align-middle items-center justify-center font-medium leading-none whitespace-nowrap text-badge-primary-text bg-badge-primary border border-badge-primary-border hover:text-badge-primary-text-hover hover:bg-badge-primary-hover hover:border-badge-primary-border-hover transition-colors duration-200 ease-out h-6 px-2 text-xs rounded-md">
+    <span>Invoke-RestMethod</span>
+</a>. Contrairement à <code translate="no" v-pre>Invoke-WebRequest</code>, il <strong>convertit automatiquement</strong> la réponse JSON en objets PowerShell : pas besoin de <code translate="no" v-pre>ConvertFrom-Json</code>.</p>
+<p>Les utilisateurs se trouvent dans la propriété <code translate="no" v-pre>results</code> de la réponse. Pour explorer la structure d&#x27;un utilisateur :</p>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">$Response = Invoke-RestMethod -Uri 'https://randomuser.me/api/?results=1&amp;nat=FR'
+$Response.results[0] | ConvertTo-Json -Depth 5</code></pre>
+</doc-codeblock></div>
+        </div>
+    </div>
+</div>
+<h3 id="propriétés-attendues">Propriétés attendues</h3>
+<retype-table copy-text="Propriété de sortie | Source dans le JSON | Remarque
+--- | --- | ---
+`DisplayName` | `name.first` + `name.last` | « Prénom Nom »
+`GivenName` | `name.first` |
+`Surname` | `name.last` |
+`MailNickname` | `name.first` + `name.last` | `prenom.nom`, en minuscules, **sans accent, espace ni apostrophe**
+`UserPrincipalName` | `MailNickname` + `-Domain` | `prenom.nom@domaine`
+`UsageLocation` | `nat` | Code pays sur 2 lettres (`FR`)
+`StreetAddress` | `location.street.number` + `location.street.name` |
+`PostalCode` | `location.postcode` | À convertir en `[string]`
+`City` | `location.city` |
+`Country` | `location.country` |
+`MobilePhone` | `cell` |">
+<div class="table-wrapper scrollbar overflow-hidden">
+<table class="compact">
+<thead>
+<tr>
+<th>Propriété de sortie</th>
+<th>Source dans le JSON</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code translate="no" v-pre>DisplayName</code></td>
+<td><code translate="no" v-pre>name.first</code> + <code translate="no" v-pre>name.last</code></td>
+<td>« Prénom Nom »</td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>GivenName</code></td>
+<td><code translate="no" v-pre>name.first</code></td>
+<td> </td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>Surname</code></td>
+<td><code translate="no" v-pre>name.last</code></td>
+<td> </td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>MailNickname</code></td>
+<td><code translate="no" v-pre>name.first</code> + <code translate="no" v-pre>name.last</code></td>
+<td><code translate="no" v-pre>prenom.nom</code>, en minuscules, <strong>sans accent, espace ni apostrophe</strong></td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>UserPrincipalName</code></td>
+<td><code translate="no" v-pre>MailNickname</code> + <code translate="no" v-pre>-Domain</code></td>
+<td><code translate="no" v-pre>prenom.nom@domaine</code></td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>UsageLocation</code></td>
+<td><code translate="no" v-pre>nat</code></td>
+<td>Code pays sur 2 lettres (<code translate="no" v-pre>FR</code>)</td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>StreetAddress</code></td>
+<td><code translate="no" v-pre>location.street.number</code> + <code translate="no" v-pre>location.street.name</code></td>
+<td> </td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>PostalCode</code></td>
+<td><code translate="no" v-pre>location.postcode</code></td>
+<td>À convertir en <code translate="no" v-pre>[string]</code></td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>City</code></td>
+<td><code translate="no" v-pre>location.city</code></td>
+<td> </td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>Country</code></td>
+<td><code translate="no" v-pre>location.country</code></td>
+<td> </td>
+</tr>
+<tr>
+<td><code translate="no" v-pre>MobilePhone</code></td>
+<td><code translate="no" v-pre>cell</code></td>
+<td> </td>
+</tr>
+</tbody>
+</table>
+</div>
+</retype-table>
 <div class="flex mb-6">
     <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-warning"></div>
     <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
@@ -188,10 +311,81 @@
             </svg>
         </div>
         <div class="pr-5 ml-3 w-full">
-<p>Cette fonction devra pouvoir recevoir les machines cibles depuis le pipeline. Aprés une commande <code translate="no" v-pre>Get-ADComputer</code> par exemple...</p>
+<p>Un UPN ne peut contenir ni accent, ni espace, ni apostrophe : <code translate="no" v-pre>Jérôme Le Gall</code> doit donner <code translate="no" v-pre>jerome.legall</code>. Cherchez du côté de la méthode <code translate="no" v-pre>.Normalize()</code> des chaînes et de la classe RegEx <code translate="no" v-pre>\p{Mn}</code>.</p>
         </div>
     </div>
 </div>
+<h2 id="bonus">Bonus</h2>
+<ul>
+<li>Formater le numéro de mobile au format international : <code translate="no" v-pre>06-69-61-79-12</code> → <code translate="no" v-pre>+33 6 69 61 79 12</code>.</li>
+<li>Ajouter un paramètre <code translate="no" v-pre>-Nationality</code> (avec <code translate="no" v-pre>ValidateSet</code>) pour interroger d&#x27;autres nationalités que <code translate="no" v-pre>FR</code>.</li>
+</ul>
+<doc-panel id="corrigé" collapsed>
+    <template #title>Corrigé</template>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">function Get-RandomUser
+{
+    [CmdletBinding()]
+    param (
+        [ValidateRange(1, 100)]
+        [int]$Count = 10,
+
+        [Parameter(Mandatory)]
+        [string]$Domain
+    )
+
+    $Response = Invoke-RestMethod -Uri &quot;https://randomuser.me/api/?results=$Count&amp;nat=FR&quot; -Method Get
+
+    foreach ($User in $Response.results)
+    {
+        # Les UPN n'acceptent ni accents, ni espaces, ni apostrophes
+        $Nickname = &quot;$($User.name.first).$($User.name.last)&quot;.Normalize([Text.NormalizationForm]::FormD)
+        $Nickname = ($Nickname -replace '\p{Mn}', '' -replace &quot;[^a-zA-Z0-9.\-]&quot;, '').ToLower()
+
+        [PSCustomObject]@{
+            DisplayName       = &quot;$($User.name.first) $($User.name.last)&quot;
+            GivenName         = $User.name.first
+            Surname           = $User.name.last
+            MailNickname      = $Nickname
+            UserPrincipalName = &quot;$Nickname@$Domain&quot;
+            UsageLocation     = $User.nat
+            StreetAddress     = &quot;$($User.location.street.number) $($User.location.street.name)&quot;
+            PostalCode        = [string]$User.location.postcode
+            City              = $User.location.city
+            Country           = $User.location.country
+            MobilePhone       = $User.cell
+        }
+    }
+}</code></pre>
+</doc-codeblock></div>
+<div class="codeblock-wrapper"><doc-codeblock>
+<pre translate="no" class="language-none"><code v-pre class="language-none">ﲵ Get-RandomUser -Count 2 -Domain 'SynapsysTest.onmicrosoft.com'
+
+DisplayName       : Enola Meyer
+GivenName         : Enola
+Surname           : Meyer
+MailNickname      : enola.meyer
+UserPrincipalName : enola.meyer@SynapsysTest.onmicrosoft.com
+UsageLocation     : FR
+StreetAddress     : 8342 Avenue Jean-Jaurès
+PostalCode        : 18137
+City              : Montpellier
+Country           : France
+MobilePhone       : 06-69-61-79-12
+
+DisplayName       : Jérôme Le Gall-Dupré
+GivenName         : Jérôme
+Surname           : Le Gall-Dupré
+MailNickname      : jerome.legall-dupre
+UserPrincipalName : jerome.legall-dupre@SynapsysTest.onmicrosoft.com
+UsageLocation     : FR
+StreetAddress     : 12 Rue de l'Église
+PostalCode        : 42000
+City              : Saint-Étienne
+Country           : France
+MobilePhone       : 07-12-34-56-78</code></pre>
+</doc-codeblock></div>
+</doc-panel>
 
                 
                 <!-- Required only on API pages -->
@@ -199,7 +393,7 @@
             </div>
             <footer id="retype-content-footer" class="clear-both">
                 <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-14">
-                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link hover:text-body-link-hover hover:underline" href="https://github.com/SynapsysIT/Powershell-Niv.2/blob/main/workshop/computer_info.md" target="_blank" rel="noopener">
+                    <a id="retype-edit-this-page" class="my-2.5 inline-flex items-center text-sm whitespace-nowrap text-body-link font-body-link hover:text-body-link-hover hover:underline" href="https://github.com/SynapsysIT/Powershell-Niv.2/blob/main/workshop/random_users.md" target="_blank" rel="noopener">
                         <svg class="mr-1.5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M20 12c-.55 0-1 .45-1 1v7c0 .55-.45 1-1 1H4c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h7c.55 0 1-.45 1-1s-.45-1-1-1H4C2.35 3 1 4.35 1 6v14c0 1.65 1.35 3 3 3h14c1.65 0 3-1.35 3-3v-7c0-.55-.45-1-1-1z" /><path d="M22.21 1.79c-1.18-1.18-3.24-1.18-4.41 0l-9.5 9.5c-.13.13-.22.29-.26.46l-1 4c-.08.34.01.7.26.95.18.2.44.3.7.3.08 0 .16-.01.24-.03l4-1c.18-.04.34-.13.46-.26l9.5-9.5c1.22-1.22 1.22-3.2.01-4.42zm-1.42 3l-9.3 9.3-2.11.53.53-2.11 9.3-9.3c.42-.42 1.16-.42 1.59 0 .43.43.43 1.15-.01 1.58z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                         <span>Edit this page</span>
                     </a>
@@ -207,20 +401,20 @@
             
                 <nav id="retype-nextprev" class="print:hidden flex mt-14">
                     <div class="w-1/2">
-                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../workshop/data_consolidation/">
+                        <a class="px-5 py-4 h-full flex items-center break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-l-lg transition-colors duration-150 relative hover:z-5" href="../../modules/module_entra/">
                             <svg xmlns="http://www.w3.org/2000/svg" class="mr-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19 11H7.41l5.29-5.29a.996.996 0 10-1.41-1.41l-7 7a1 1 0 000 1.42l7 7a1.024 1.024 0 001.42-.01.996.996 0 000-1.41L7.41 13H19c.55 0 1-.45 1-1s-.45-1-1-1z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                             <span>
                                 <span class="block text-xs font-normal text-base-text-muted">Previous</span>
-                                <span class="block mt-1">JSON Data Consolidation</span>
+                                <span class="block mt-1">Atelier : regrouper ses fonctions dans un module</span>
                             </span>
                         </a>
                     </div>
             
                     <div class="w-1/2">
-                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../workshop/create_ad_users/">
+                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../workshop/new_entra_users/">
                             <span>
                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                <span class="block mt-1">Create AD Users</span>
+                                <span class="block mt-1">Atelier : cr&#233;er des utilisateurs Entra ID depuis le pipeline</span>
                             </span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                         </a>
@@ -264,6 +458,6 @@
 
     <div id="retype-overlay-target"></div>
 
-        <script data-cfasync="false">window.__DOCS__ = { "title": "Computer Info", level: 2, icon: "file", hasPrism: false, hasInstagram: false, hasMermaid: false, hasMath: false, tocDepth: 23, "md": "/workshop/computer_info.md" }</script>
+        <script data-cfasync="false">window.__DOCS__ = { "title": "Atelier : consommer une API REST", level: 2, icon: "file", hasPrism: true, hasInstagram: false, hasMermaid: false, hasMath: false, tocDepth: 23, "md": "/workshop/random_users.md" }</script>
 </body>
 </html>
