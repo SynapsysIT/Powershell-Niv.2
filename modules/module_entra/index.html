@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <meta name="turbo-root" content="/Powershell-Niv.2">
-    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844598481838">
+    <meta name="turbo-cache-control" content="no-cache" data-turbo-track="reload" data-track-token="4.6.0.844601148622">
 
     <!-- See retype.com -->
     <meta name="generator" content="Retype 4.6.0">
@@ -39,12 +39,12 @@
     <script data-cfasync="false">(function(){var cl=document.documentElement.classList,ls=localStorage.getItem("retype_scheme"),hd=cl.contains("dark"),hl=cl.contains("light"),wm=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;if(ls==="dark"||(!ls&&wm&&!hd&&!hl)){cl.remove("light");cl.add("dark")}else if(ls==="light"||(!ls&&!wm&&!hd&&!hl)){cl.remove("dark");cl.add("light")}})();</script>
 
     <link id="retype-favicon" rel="icon" href="../../assets/logo_rhino_red.png" />
-    <link href="../../resources/css/retype.css?v=4.6.0.844598481838" rel="stylesheet">
+    <link href="../../resources/css/retype.css?v=4.6.0.844601148622" rel="stylesheet">
 
-    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
+    <script data-cfasync="false" src="../../resources/js/config.js?v=4.6.0.844601148622" data-turbo-eval="false" defer></script>
     <script data-cfasync="false" src="../../resources/js/retype.js?v=4.6.0" data-turbo-eval="false" defer></script>
-    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844598481838" data-turbo-eval="false" defer></script>
-    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.844598481838" defer></script>
+    <script id="lunr-js" data-cfasync="false" src="../../resources/js/lunr.js?v=4.6.0.844601148622" data-turbo-eval="false" defer></script>
+    <script id="prism-js" data-cfasync="false" src="../../resources/js/prism.js?v=4.6.0.844601148622" defer></script>
 </head>
 <body>
     <div id="retype-app" class="relative text-base antialiased text-base-text bg-base-bg font-body">
@@ -298,185 +298,6 @@ Get-RandomUser -Count 5 -Domain 'SynapsysTest.onmicrosoft.com' | New-CustomEntra
         </div>
     </div>
 </div>
-<doc-panel id="corrigé" collapsed>
-    <template #title>Corrigé</template>
-<h3 id="arborescence">Arborescence</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-none"><code v-pre class="language-none">CustomEntra\
-├── CustomEntra.psd1
-├── CustomEntra.psm1
-├── Public\
-│   ├── Get-CustomEntraUserReport.ps1
-│   └── New-CustomEntraUser.ps1
-└── Private\
-    └── Assert-CustomGraphConnection.ps1</code></pre>
-</doc-codeblock></div>
-<h3 id="privateassert-customgraphconnectionps1">Private\Assert-CustomGraphConnection.ps1</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">function Assert-CustomGraphConnection
-{
-    &lt;#
-    .SYNOPSIS
-        Vérifie qu'une session Microsoft Graph est ouverte avec les permissions nécessaires.
-    .PARAMETER RequiredScope
-        Permissions requises. Chaque entrée peut lister des alternatives séparées par &quot;|&quot;
-        (ex: 'User.Read.All|User.ReadWrite.All' : l'une ou l'autre suffit).
-    #&gt;
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory)]
-        [string[]]$RequiredScope
-    )
-
-    $Context = Get-MgContext
-    if (-not $Context)
-    {
-        throw &quot;Aucune session Microsoft Graph. Exécutez Connect-MgGraph avant d'utiliser ce module.&quot;
-    }
-
-    $Missing = foreach ($Scope in $RequiredScope)
-    {
-        $Alternatives = $Scope -split '\|'
-        if (-not ($Alternatives | Where-Object { $_ -in $Context.Scopes }))
-        {
-            $Alternatives[0]
-        }
-    }
-
-    if ($Missing)
-    {
-        throw &quot;Permission(s) Microsoft Graph manquante(s) : $($Missing -join ', ')&quot;
-    }
-
-    Write-Verbose &quot;Session Graph OK ($($Context.AuthType)) - Tenant $($Context.TenantId)&quot;
-}</code></pre>
-</doc-codeblock></div>
-<h3 id="appel-dans-les-fonctions-publiques">Appel dans les fonctions publiques</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">Public\New-CustomEntraUser.ps1</div>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">    begin
-    {
-        Assert-CustomGraphConnection -RequiredScope 'User.ReadWrite.All|Directory.ReadWrite.All'
-    }</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">Public\Get-CustomEntraUserReport.ps1</div>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">    begin
-    {
-        Assert-CustomGraphConnection -RequiredScope 'User.Read.All|User.ReadWrite.All|Directory.Read.All', 'AuditLog.Read.All', 'LicenseAssignment.Read.All|Organization.Read.All|Directory.Read.All'
-
-        $Properties = ...   # suite du bloc begin inchangée
-    }</code></pre>
-</doc-codeblock></div>
-<div class="flex mb-6">
-    <div class="shrink-0 w-1.5 rounded-tl-lg rounded-bl-lg bg-callout-primary"></div>
-    <div class="flex w-full py-4 border border-l-0 rounded-tr-lg rounded-br-lg doc-callout bg-callout-base-bg border-callout-base-border" role="alert">
-        <div class="flex items-center ml-4 h-7">
-            <svg xmlns="http://www.w3.org/2000/svg" class="block text-callout-primary" width="22" height="22" viewBox="0 0 24 24" role="presentation">
-                <g fill="currentColor"><g>
-                    <path d="M12 1C5.93 1 1 5.93 1 12s4.93 11 11 11 11-4.93 11-11S18.07 1 12 1zm0 20c-4.96 0-9-4.04-9-9s4.04-9 9-9 9 4.04 9 9-4.04 9-9 9z"></path>
-                    <path d="M12 11c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1s1-.45 1-1v-4c0-.55-.45-1-1-1zM12.01 7c-.56 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path>
-                    <path fill="none" d="M0 0h24v24H0z"></path>
-                </g></g>
-            </svg>
-        </div>
-        <div class="pr-5 ml-3 w-full">
-<p>Les alternatives acceptent aussi les permissions <strong>plus larges</strong> (<code translate="no" v-pre>User.ReadWrite.All</code>, <code translate="no" v-pre>Directory.Read.All</code>...) : un tenant de formation dispose souvent de droits plus élevés que le strict minimum.</p>
-        </div>
-    </div>
-</div>
-<h3 id="customentrapsm1">CustomEntra.psm1</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell"># Chargement des fonctions privées puis publiques
-$Private = @(Get-ChildItem -Path &quot;$PSScriptRoot\Private\*.ps1&quot; -ErrorAction SilentlyContinue)
-$Public  = @(Get-ChildItem -Path &quot;$PSScriptRoot\Public\*.ps1&quot;  -ErrorAction SilentlyContinue)
-
-foreach ($File in @($Private + $Public))
-{
-    try
-    {
-        . $File.FullName
-    }
-    catch
-    {
-        Write-Error &quot;Échec du chargement de $($File.FullName) : $_&quot;
-    }
-}
-
-# Seules les fonctions du dossier Public sont exposées
-Export-ModuleMember -Function $Public.BaseName</code></pre>
-</doc-codeblock></div>
-<h3 id="manifeste-et-validation">Manifeste et validation</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">$Manifest = @{
-    Path              = '.\CustomEntra\CustomEntra.psd1'
-    RootModule        = 'CustomEntra.psm1'
-    ModuleVersion     = '1.0.0'
-    Author            = 'Stagiaire'
-    CompanyName       = 'Synapsys'
-    Description       = 'Gestion et reporting des utilisateurs Entra ID'
-    PowerShellVersion = '5.1'
-    RequiredModules   = @('Microsoft.Graph.Authentication', 'Microsoft.Graph.Users', 'Microsoft.Graph.Identity.DirectoryManagement')
-    FunctionsToExport = @('New-CustomEntraUser', 'Get-CustomEntraUserReport')
-    CmdletsToExport   = @()
-    VariablesToExport = @()
-    AliasesToExport   = @()
-    Tags              = @('EntraID', 'Graph')
-}
-New-ModuleManifest @Manifest
-Test-ModuleManifest .\CustomEntra\CustomEntra.psd1
-
-Import-Module .\CustomEntra -Force
-Get-Command -Module CustomEntra                                  # Get-CustomEntraUserReport, New-CustomEntraUser
-Get-Command Assert-CustomGraphConnection -ErrorAction Ignore     # Rien</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-none"><code v-pre class="language-none">ﲵ Get-CustomEntraUserReport   # sans Connect-MgGraph
-Exception: Aucune session Microsoft Graph. Exécutez Connect-MgGraph avant d'utiliser ce module.
-
-ﲵ Get-CustomEntraUserReport   # connecté avec User.ReadWrite.All uniquement
-Exception: Permission(s) Microsoft Graph manquante(s) : AuditLog.Read.All, LicenseAssignment.Read.All</code></pre>
-</doc-codeblock></div>
-<h3 id="publication">Publication</h3>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">New-Item -ItemType Directory -Path C:\PSRepo -Force
-Register-PSResourceRepository -Name LocalRepo -Uri C:\PSRepo -Trusted
-
-Publish-PSResource -Path .\CustomEntra -Repository LocalRepo
-Install-PSResource -Name CustomEntra -Repository LocalRepo -Scope CurrentUser</code></pre>
-</doc-codeblock></div>
-<h3 id="version-101">Version 1.0.1</h3>
-<p>Extraction d&#x27;une fonction <strong>privée</strong> : aucun changement visible pour l&#x27;utilisateur du module → <strong>version correctif</strong>.</p>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">Private\New-CustomPassword.ps1</div>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">function New-CustomPassword
-{
-    [CmdletBinding()]
-    [OutputType([string])]
-    param (
-        [ValidateRange(12, 64)]
-        [int]$Length = 16
-    )
-
-    # Suffixe fixe pour garantir majuscule, minuscule, chiffre et caractère spécial
-    (-join ((33..126) | Get-Random -Count ($Length - 4) | ForEach-Object -Process { [char]$_ })) + 'Aa1!'
-}</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<div class="codeblock-title">Dans New-CustomEntraUser</div>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">$Params['PasswordProfile'] = @{
-    Password                      = New-CustomPassword
-    ForceChangePasswordNextSignIn = $true
-}</code></pre>
-</doc-codeblock></div>
-<div class="codeblock-wrapper"><doc-codeblock>
-<pre translate="no" class="language-powershell"><code v-pre class="language-powershell">Update-ModuleManifest -Path .\CustomEntra\CustomEntra.psd1 -ModuleVersion '1.0.1' -ReleaseNotes 'Extraction de la génération du mot de passe (New-CustomPassword)'
-Publish-PSResource -Path .\CustomEntra -Repository LocalRepo
-Update-PSResource  -Name CustomEntra
-
-Find-PSResource -Name CustomEntra -Repository LocalRepo -Version *   # 1.0.1 et 1.0.0</code></pre>
-</doc-codeblock></div>
-</doc-panel>
 
                 
                 <!-- Required only on API pages -->
@@ -502,10 +323,10 @@ Find-PSResource -Name CustomEntra -Repository LocalRepo -Version *   # 1.0.1 et 
                     </div>
             
                     <div class="w-1/2">
-                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../workshop/random_users/">
+                        <a class="px-5 py-4 -mx-px h-full flex items-center justify-end break-normal font-medium text-body-link border border-base-border hover:border-base-border-hover rounded-r-lg transition-colors duration-150 relative hover:z-5" href="../../tests/">
                             <span>
                                 <span class="block text-xs font-normal text-right text-base-text-muted">Next</span>
-                                <span class="block mt-1">Atelier : consommer une API REST</span>
+                                <span class="block mt-1">Tester son code avec Pester</span>
                             </span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" overflow="visible"><path d="M19.92 12.38a1 1 0 00-.22-1.09l-7-7a.996.996 0 10-1.41 1.41l5.3 5.3H5c-.55 0-1 .45-1 1s.45 1 1 1h11.59l-5.29 5.29a.996.996 0 000 1.41c.19.2.44.3.7.3s.51-.1.71-.29l7-7c.09-.09.16-.21.21-.33z" /><path fill="none" d="M0 0h24v24H0z" /></svg>
                         </a>

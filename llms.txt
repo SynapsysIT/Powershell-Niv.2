@@ -5,24 +5,25 @@
 - [Powershell Niv.2](https://synapsysit.github.io/Powershell-Niv.2/index.md): Powershell Niv.2
 - [Construire son code](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/index.md): On identifira rapidement une ou deux commandes qui seront le coeur de notre code.
 - [Créer ses modules](https://synapsysit.github.io/Powershell-Niv.2/modules/index.md): Une fonction bien construite n'a de valeur que si elle est réutilisable et distribuable. Copier-coller une fonction d'un script à l'autre, ou la charger
+- [Tester avec Pester](https://synapsysit.github.io/Powershell-Niv.2/tests/index.md): Pester est le framework de tests de PowerShell. Il permet de vérifier automatiquement qu'une fonction fait ce qu'on attend d'elle, avant de la publier, et de détecter une régression à chaque modification.
 
 ## Construire son code
 
+- [Guidelines](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/guidelines.md): Inutile de décrire ce que fait le code : il se lit tout seul. Ce qui importe, c'est d'expliquer pourquoi un bout de code est là.
 - [Paramètres](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/params.md): Cette option permet de rendre un paramètre obligatoire. Si ce paramètre est oublié à l'appel du script ou de la fonction, un prompt apparaîtra pour fournir une valeur.
 - [Outputs](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/outputs.md): Dans la plupart des cas, votre script aura à renvoyer des données. Il convient alors de le faire dans la philosophie de PowerShell et de les renvoyer sous forme d'objets.
-- [Mise en forme](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/beautify_your_code.md): Il existe plusieurs méthodes à connaître pour simplifier et faciliter la lisibilité de votre code.
 - [Verbose, Warning and Information Output](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/verbose_warning_info.md): Il est utile de connaitre les 6 canaux de sorties de Powershell:
 - [Gérer les erreurs](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/error_handling.md): En Powershell, il existe deux types d'erreur:
 - [Intégrer une aide](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/comment_based_help.md): On peut intégrer une aide dans sa fonction ou son script via un bloc de commentaire dédié. Elle sera ensuite consultable avec Get-Help, exactement comme pour une commande native.
-- [Guidelines](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/guidelines.md): Inutile de décrire ce que fait le code : il se lit tout seul. Ce qui importe, c'est d'expliquer pourquoi un bout de code est là.
-
-## Créer ses modules
-
-- [Structurer un module](https://synapsysit.github.io/Powershell-Niv.2/modules/structure.md): Les exemples de cette page s'appuient sur le module CustomEntra, que vous construirez dans l'atelier Module CustomEntra à partir des fonctions des ateliers Create Users et Get Users.
-- [Module CustomEntra](https://synapsysit.github.io/Powershell-Niv.2/modules/module_entra.md): Objectif : regrouper les fonctions des ateliers Create Users et Get Users dans un module CustomEntra versionné, doté d'une fonction privée partagée, puis le publier dans un dépôt interne.
+- [Mise en forme](https://synapsysit.github.io/Powershell-Niv.2/construire_son_code/beautify_your_code.md): Il existe plusieurs méthodes à connaître pour simplifier et faciliter la lisibilité de votre code.
 
 ## Workshop
 
 - [API Random User](https://synapsysit.github.io/Powershell-Niv.2/workshop/random_users.md): Objectif : récupérer des identités fictives depuis une API REST publique et les transformer en objets PowerShell prêts à être envoyés dans le pipeline.
 - [Create Users](https://synapsysit.github.io/Powershell-Niv.2/workshop/new_entra_users.md): Objectif : coder une fonction qui reçoit les objets produits par Get-RandomUser (atelier API Random User) par le pipeline et crée les utilisateurs correspondants dans Entra ID.
 - [Get Users](https://synapsysit.github.io/Powershell-Niv.2/workshop/get_entra_users.md): Objectif : coder une fonction Get-CustomEntraUserReport qui produit un rapport sur les utilisateurs du tenant, avec leur dernière activité de connexion,
+
+## Créer ses modules
+
+- [Structurer un module](https://synapsysit.github.io/Powershell-Niv.2/modules/structure.md): Les exemples de cette page s'appuient sur le module CustomEntra, que vous construirez dans l'atelier Module CustomEntra à partir des fonctions des ateliers Create Users et Get Users.
+- [Module CustomEntra](https://synapsysit.github.io/Powershell-Niv.2/modules/module_entra.md): Objectif : regrouper les fonctions des ateliers Create Users et Get Users dans un module CustomEntra versionné, doté d'une fonction privée partagée, puis le publier dans un dépôt interne.
