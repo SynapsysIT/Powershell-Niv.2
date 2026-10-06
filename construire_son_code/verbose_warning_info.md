@@ -1,6 +1,6 @@
 ---
 icon: log
-order: 7
+order: 40
 title: Verbose, Warning and Information Output
 ---
 

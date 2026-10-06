@@ -1,6 +1,6 @@
 ---
 icon: alert
-order: 6
+order: 30
 title: Gérer les erreurs
 ---
 

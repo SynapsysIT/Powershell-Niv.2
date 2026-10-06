@@ -1,6 +1,6 @@
 ---
 icon: sign-in
-order: 10
+order: 60
 title: Paramètres
 ---
 

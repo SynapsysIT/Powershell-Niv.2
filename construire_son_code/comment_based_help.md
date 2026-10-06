@@ -1,6 +1,6 @@
 ---
 icon: question
-order: 6
+order: 20
 title: Intégrer une aide
 ---
 

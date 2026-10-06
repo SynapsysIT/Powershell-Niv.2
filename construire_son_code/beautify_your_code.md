@@ -1,6 +1,6 @@
 ---
 icon: code
-order: 8
+order: 10
 title: Mise en forme
 ---
 

@@ -1,6 +1,6 @@
 ---
 icon: package
-order: 0
+order: 1
 title: Créer ses modules
 ---
 

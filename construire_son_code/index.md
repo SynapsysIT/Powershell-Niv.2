@@ -1,6 +1,6 @@
 ---
 icon: project
-order: 1
+order: 3
 ---
 
 # Construire son code

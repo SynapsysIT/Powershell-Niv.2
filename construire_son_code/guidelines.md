@@ -1,6 +1,6 @@
 ---
 icon: checklist
-order: 2
+order: 70
 title: Guidelines
 ---
 

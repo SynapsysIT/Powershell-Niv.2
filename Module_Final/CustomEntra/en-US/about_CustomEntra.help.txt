@@ -1,0 +1,26 @@
+TOPIC
+    about_CustomEntra
+
+SHORT DESCRIPTION
+    Gestion et reporting des utilisateurs Entra ID via Microsoft Graph.
+
+LONG DESCRIPTION
+    Le module CustomEntra regroupe les fonctions des ateliers de la formation
+    PowerShell Avancée :
+
+        New-CustomEntraUser         Crée des utilisateurs depuis le pipeline
+        Get-CustomEntraUserReport   Rapport d'activité de connexion
+        Remove-CustomEntraUser      Supprime des utilisateurs (nettoyage)
+
+    Toutes les fonctions nécessitent une session Microsoft Graph ouverte
+    (Connect-MgGraph) avec les permissions adaptées.
+
+EXAMPLES
+    Connect-MgGraph -TenantId $TenantId -ClientSecretCredential $Credential -NoWelcome
+    $CreatedUsers = Get-RandomUser -Count 5 -Domain 'contoso.onmicrosoft.com' | New-CustomEntraUser
+    $CreatedUsers | Get-CustomEntraUserReport
+    $CreatedUsers | Remove-CustomEntraUser -Confirm:$false
+
+SEE ALSO
+    Connect-MgGraph
+    Get-Help New-CustomEntraUser -Full

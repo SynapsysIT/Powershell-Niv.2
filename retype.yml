@@ -1,5 +1,9 @@
 input: .
 output: .retype
+
+exclude:
+  - "Module_Final/"
+
 url: https://synapsysit.github.io/Powershell-Niv.2/
 branding:
   title: Formation Powershell
