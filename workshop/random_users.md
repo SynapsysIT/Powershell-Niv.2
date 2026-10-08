@@ -45,7 +45,10 @@ Propriété de sortie | Source dans le JSON | Remarque
 `MobilePhone` | `cell` |
 
 !!!warning
-Un UPN ne peut contenir ni accent, ni espace, ni apostrophe : `Jérôme Le Gall` doit donner `jerome.legall`. Cherchez du côté de la méthode `.Normalize()` des chaînes et de la classe RegEx `\p{Mn}`.
+Un UPN ne peut contenir ni accent, ni espace, ni apostrophe : `Jérôme Le Gall` doit donner `jerome.legall`. 
+Vous pouvez utiliser ce code pour suprimer les caractères accentués `[Text.Encoding]::ASCII.GetString([Text.Encoding]::GetEncoding("Cyrillic").GetBytes("Jérôme"))`
+
+Et pour supprimer les espace: `-replace '\s', ''`.
 !!!
 
 ## Bonus
